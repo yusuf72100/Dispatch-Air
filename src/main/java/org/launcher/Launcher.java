@@ -42,6 +42,11 @@ public class Launcher {
   /**
    * Le chemin du dossier des assets à partir du dossier de l'application
    */
+  public static String dossierFonts = dossierAssets + "/font";
+
+  /**
+   * Le chemin du dossier des assets à partir du dossier de l'application
+   */
   public static String dossierStyleSheet = dossierAssets + "/stylesheet";
 
   /**
@@ -125,7 +130,7 @@ public class Launcher {
    * @throws IOException si une erreur d'entrée/sortie se produit
    */
   private static boolean isRessourcesCompletes(JarFile fichierJar, String cheminDossierRessourcesJar,
-      String cheminDossierRessourcesLocal) throws IOException {
+                                               String cheminDossierRessourcesLocal) throws IOException {
     Set<String> ressourcesJar = normaliserChemin(getRessourcesJar(fichierJar, cheminDossierRessourcesJar), "/");
     Set<String> ressourcesLocal = normaliserChemin(getRessourcesLocales(cheminDossierRessourcesLocal), "/");
 
@@ -279,7 +284,7 @@ public class Launcher {
    * @throws IOException si une erreur d'entrée/sortie se produit
    */
   private static void extraireRessourcesDepuisJar(JarFile fichierJar, String cheminDossierRessources,
-      String cheminDossierDestination) throws IOException {
+                                                  String cheminDossierDestination) throws IOException {
 
     File dossierDestination = new File(cheminDossierDestination);
     if (!dossierDestination.exists()) {
@@ -292,7 +297,7 @@ public class Launcher {
 
       if (entree.getName().startsWith(cheminDossierRessources + "/")) {
         File fichierSortie = new File(cheminDossierDestination + File.separator +
-            entree.getName().substring(cheminDossierRessources.length() + 1));
+                entree.getName().substring(cheminDossierRessources.length() + 1));
 
         if (entree.isDirectory()) {
           fichierSortie.mkdirs();
@@ -303,7 +308,7 @@ public class Launcher {
           }
 
           try (InputStream fluxEntree = fichierJar.getInputStream(entree);
-              OutputStream fluxSortie = new FileOutputStream(fichierSortie)) {
+               OutputStream fluxSortie = new FileOutputStream(fichierSortie)) {
             byte[] memoireTampon = new byte[1024];
             int octesLus;
             while ((octesLus = fluxEntree.read(memoireTampon)) != -1) {
@@ -376,10 +381,10 @@ public class Launcher {
     }
 
     // Vérifie si le programme est lancé dans le même dossier que le .jar
-    /*if ( normaliserChemin(cheminDossierParentJar).compareTo(normaliserChemin(cheminDossierParentRessourcesLocal)) != 0 ) {
+    if ( normaliserChemin(cheminDossierParentJar).compareTo(normaliserChemin(cheminDossierParentRessourcesLocal)) != 0 ) {
       Application.launch(FenetreMauvaisDossier.class);
       return;
-    }*/
+    }
 
     try {
       if (verbose) {
