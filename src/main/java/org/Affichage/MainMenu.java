@@ -1,22 +1,12 @@
 package org.Affichage;
 
-import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.launcher.Launcher;
-
-import static org.launcher.Launcher.normaliserChemin;
 
 
 public class MainMenu implements Menu {
@@ -52,11 +42,9 @@ public class MainMenu implements Menu {
             Platform.exit();
         });
 
-        customFont = Font.loadFont(Launcher.normaliserChemin(Launcher.chargerFichierEnUrl(Launcher.dossierAssets + "/font/BrownRosemary.ttf")), 30);
         title = new Label("D i s p a t c h ' A i r");
-        title.setTextFill(Color.WHITE);
-        title.setFont(customFont);
         title.setPadding(new Insets(0, 0, 0, 50));
+        title.getStyleClass().add("title");
 
         header = new HBox();
         header.setMaxSize(WIDTH, 30);

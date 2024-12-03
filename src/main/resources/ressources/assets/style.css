@@ -10,7 +10,9 @@
 }
 
 .title{
-    -fx-letter-spacing: 2px;
+    -fx-font-family: 'BrownRosemary';
+    -fx-text-fill: white;
+    -fx-font-size: 30;
 }
 
 .mainPane {
