@@ -342,7 +342,7 @@ public class Launcher {
 
     // Obtient le chemin vers le fichier JAR en cours d'execution
     final String cheminFichierJar = Launcher.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-//
+
     // Extrait le chemin du dossier parent du fichier JAR
     String cheminDossierParentJar = cheminFichierJar.substring(0, cheminFichierJar.lastIndexOf("/") + 1);
 
