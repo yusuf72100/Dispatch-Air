@@ -23,6 +23,8 @@
     -fx-background-size: 10px 20px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
+    -fx-opacity: 1;
+    -fx-transition: background-color 0.3s ease-in-out;
 }
 
 .button-withoutbg-close {
@@ -31,6 +33,7 @@
     -fx-background-size: 15px 15px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
+    -fx-transition: background-color 0.3s ease-in-out;
 }
 
 .button-withoutbg-close:hover {
