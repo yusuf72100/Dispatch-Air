@@ -6,4 +6,4 @@
  * Dans le cas où ils ne sont pas présents, il les extrait du fichier jar.
  * Il vérifie aussi que l'exécution de l'application soit faite à partir du dossier parent au .jar.
  */
-package org.example;
+package org.launcher;
