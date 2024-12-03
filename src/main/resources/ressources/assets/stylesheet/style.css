@@ -1,0 +1,446 @@
+.viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane:focused {
+    -fx-background-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1;
+}
+
+.bg_custom-blue {
+    -fx-background-color: blue;
+    -fx-opacity: 0.7;
+}
+
+.bg_custom-red {
+    -fx-background-color: red;
+    -fx-opacity: 0.7;
+}
+
+.bg_custom-orange {
+    -fx-background-color: orange;
+    -fx-opacity: 0.7;
+}
+
+.aideNiveau {
+    -fx-font-family: 'Inter';
+    -fx-font-weight: bold;
+}
+
+.title {
+    -fx-font-family: 'Inter';
+    -fx-font-weight: bold;
+    -fx-font-size: 80;
+    -fx-fill: black;
+    -fx-stroke: black;
+    -fx-stroke-width: 2;
+}
+
+.title_help {
+    -fx-font-family: 'Inter';
+    -fx-font-weight: bold;
+    -fx-font-size: 50;
+    -fx-underline: true;
+}
+
+.title2_help {
+    -fx-font-family: 'Inter';
+    -fx-font-weight: bold;
+    -fx-font-size: 30;
+}
+
+.avertissement_help {
+    -fx-font-family: 'Inter';
+    -fx-font-size: 20;
+    -fx-fill: #525668;
+    -fx-text-alignment: center;
+}
+
+.description-background {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0 0 10px 10px;
+}
+
+.description-text {
+    -fx-font-family: 'Inter';
+    -fx-font-weight: bold;
+    -fx-font-size: 18;
+    -fx-text-fill: black;
+}
+
+.button-withoutbg {
+    -fx-font-weight: bold;
+    -fx-font-size: 25;
+    -fx-font-family: 'Inter';
+    -fx-text-fill: black;
+    -fx-background-color: transparent;
+}
+
+.button-withoutbg:hover {
+    -fx-text-fill: #e0ac1e;
+}
+
+.button-carre {
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/address-book.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-carre:hover {
+    -fx-background-color: #e0ac1e;
+}
+
+.button-carre-play {
+    -fx-background-radius: 0px;
+    -fx-background-color: #D9D9D9;
+}
+
+.button-carre-play:hover {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.button-rounded {
+    -fx-background-radius: 10px;
+    -fx-background-color: #D9D9D9;
+}
+
+.button-rounded:hover {
+    -fx-background-color: #e0ac1e;
+}
+
+.button-rounded-play {
+    -fx-background-radius: 10px;
+    -fx-background-color: #D9D9D9;
+}
+
+.button-rounded-play:hover {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.button {
+    -fx-background-radius: 10px;
+    -fx-background-color: #D9D9D9;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-transition: background 0.3s, color 0.3s;
+}
+
+.button-text {
+    -fx-font-family: 'Inter';
+    -fx-font-weight: bold;
+    -fx-font-size: 35;
+    -fx-text-fill: black;
+    -fx-stroke: black;
+    -fx-stroke-width: 2;
+}
+
+.clicked-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: #ffffff;
+    -fx-animation: pulse 0.5s ease-out;
+}
+
+.combo-box {
+    -fx-font-family: 'Inter';
+    -fx-font-weight: bold;
+    -fx-background-color: #D9D9D9;
+    -fx-border-width: 0px;
+    -fx-border-radius: 0px;
+    -fx-padding: 0px;
+    -fx-cursor: hand;
+    -fx-pref-width: 225px;
+    -fx-pref-height: 55px;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow-button .arrow {
+    -fx-background-color: transparent;
+}
+
+.combo-box .list-view {
+    -fx-font-family: 'Inter';
+    -fx-font-weight: bold;
+    -fx-background-color: #D9D9D9;
+    -fx-border-width: 0px;
+    -fx-padding: 8px;
+}
+
+.combo-box .list-view .list-cell {
+    -fx-font-family: 'Inter';
+    -fx-font-weight: bold;
+    -fx-background-color: #D9D9D9;
+    -fx-padding: 0px;
+    -fx-cursor: hand;
+}
+
+.combo-box .list-view .list-cell:hover {
+    -fx-font-family: 'Inter';
+    -fx-font-weight: bold;
+    -fx-background-color: #e0ac1e;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+}
+
+.combo-box .list-view .list-cell:selected {
+    -fx-font-family: 'Inter';
+    -fx-font-weight: bold;
+    -fx-background-color: #e0ac1e;
+    -fx-text-fill: black;
+}
+
+.eye_opened {
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/eye_opened.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.eye_closed {
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/eye_closed.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.settingsButton {
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/parametres.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-upgradeLevel {
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/upgradeLevel.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-sauvegarder {
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/sauvegarder.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-home {
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/home.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-pause {
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/pause.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-undo{
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/undo.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-redo{
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/redo.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-hypothese{
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/hypothese.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-check{
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/check.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-help{
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/help.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-more{
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/more.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.button-top, .button-bottom {
+    -fx-background-color: lightgray;
+    -fx-opacity: 0.0;
+    -fx-border-radius: 0;
+    -fx-shape: "M0,0 L1,0 1,1 0,1 Z";
+}
+
+.color-transition {
+    -fx-transition: background-color 1s ease-in-out;
+}
+
+.button-top.clicked, .button-bottom.clicked, .button-left.clicked, .button-right.clicked {
+    -fx-background-color: black;
+    -fx-opacity: 1.0;
+    -fx-border-radius: 0;
+}
+
+.button-top.croix, .button-bottom.croix {
+    -fx-background-color: transparent;
+    -fx-opacity: 1.0;
+    -fx-border-radius: 0;
+}
+
+.button-top.highlight-blue, .button-bottom.highlight-blue, .button-left.highlight-blue, .button-right.highlight-blue {
+    -fx-background-color: blue;
+    -fx-opacity: 0.7;
+}
+
+.button-top.highlight-red, .button-bottom.highlight-red, .button-left.highlight-red, .button-right.highlight-red {
+    -fx-background-color: red;
+    -fx-opacity: 0.7;
+}
+
+.button-top.highlight-orange, .button-bottom.highlight-orange, .button-left.highlight-orange, .button-right.highlight-orange {
+    -fx-background-color: orange;
+    -fx-opacity: 0.7;
+}
+
+.button-left.croix, .button-right.croix {
+    -fx-background-color: transparent;
+    -fx-opacity: 1.0;
+    -fx-border-radius: 0;
+}
+
+.button-top.croix:hover, .button-bottom.croix:hover, .button-left.croix:hover, .button-right.croix:hover {
+    -fx-background-color: gray;
+}
+
+.button-left, .button-right {
+    -fx-background-color: lightgray;
+    -fx-opacity: 0.0;
+    -fx-border-radius: 0;
+    -fx-shape: "M0,0 L1,0 1,1 0,1 Z";
+}
+
+.black-square {
+    -fx-fill: black;
+    -fx-padding: 8px;
+    -fx-border-radius: 0;
+    -fx-shape: "M0,0 L1,0 1,1 0,1 Z";
+}
+
+.button-disabled {
+    -fx-opacity: 0.5;
+    -fx-cursor: default;
+}
+
+.historiqueAidesVBox {
+    -fx-background-image:  url('img/design_historique_aides.png');
+    -fx-background-size: contain;
+}
+
+.button-more {
+    -fx-background-color: rgba(208, 208, 208, 0);
+    -fx-background-image: url('icon/more.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-padding: 5 10;
+}
+
+.custom-checkbox-on {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+    -fx-background-color: #ffc107; /* Jaune moutarde */
+    -fx-text-fill: black;
+}
+
+.custom-checkbox-on:hover{
+    -fx-text-fill: white;
+}
+
+.custom-checkbox-on.selected {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+    -fx-background-color: #ffc107; /* Jaune moutarde */
+    -fx-text-fill: black;
+}
+
+.custom-checkbox-off {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+    -fx-background-color: #343a40;
+    -fx-text-fill: white;
+}
+
+.custom-checkbox-off.selected {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+    -fx-background-color: #343a40;
+    -fx-text-fill: white;;
+}
+
+.custom-checkbox-off:hover {
+    -fx-text-fill: #ffc107;
+}

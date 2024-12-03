@@ -29,7 +29,7 @@ public class Main extends Application {
             );
 
             // Gestion du style
-            String cheminStyleCss = Launcher.normaliserChemin(Launcher.dossierAssets + "/style.css");
+            String cheminStyleCss = Launcher.normaliserChemin(Launcher.dossierStyleSheet + "/style.css");
             Main.getStylesheets().add(Launcher.chargerFichierEnUrl(cheminStyleCss));
 
             // Gestion de la fenêtre

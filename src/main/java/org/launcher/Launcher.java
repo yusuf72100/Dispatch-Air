@@ -40,6 +40,11 @@ public class Launcher {
   public static String dossierAssets = Launcher.dossierdispatchAir + "/assets";
 
   /**
+   * Le chemin du dossier des assets à partir du dossier de l'application
+   */
+  public static String dossierStyleSheet = dossierAssets + "/stylesheet";
+
+  /**
    * Le chemin du dossier des profils à partir du dossier de l'application
    */
   public static String dossierProfils = Launcher.dossierdispatchAir + "/profils";
