@@ -88,7 +88,7 @@ public class Main extends Application {
             });
 
             // Gestion de l'icône
-            String cheminImgIcon = Launcher.normaliserChemin(Launcher.dossierAssets + "/icon/icon.png");
+            String cheminImgIcon = Launcher.normaliserChemin(Launcher.dossierAssets + "/img/logo.png");
             primary.getIcons().add(Launcher.chargerImage(cheminImgIcon));
 
 
