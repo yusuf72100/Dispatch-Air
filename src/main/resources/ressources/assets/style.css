@@ -13,6 +13,7 @@
     -fx-font-family: 'BrownRosemary';
     -fx-text-fill: white;
     -fx-font-size: 30;
+    -fx-padding: 0 0 0 50;
 }
 
 .mainPane {
@@ -56,5 +57,10 @@
 
 .button-carre:hover {
     -fx-background-color: #e0ac1e;
+}
+
+.reduce-rectangle {
+    -fx-background-image: url('img/window_reduce.png');
+    -fx-background-size: cover;
 }
 

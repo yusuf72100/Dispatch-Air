@@ -1,5 +1,8 @@
 package org.Affichage;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -7,8 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import org.launcher.Launcher;
 
 import java.io.IOException;
@@ -35,7 +40,7 @@ public class Main extends Application {
             header = MainMenu.getHeader();
 
             // Gestion de la scène
-            Main = new Scene(root, WIDTH, HEIGHT);
+            Main = new Scene(root, WIDTH, HEIGHT, Color.TRANSPARENT);
 
             // Gestion du style
             String cheminStyleCss = Launcher.normaliserChemin(Launcher.dossierAssets + "/style.css");
@@ -94,5 +99,25 @@ public class Main extends Application {
 
     public static void reduceWindow() {
         primaryStage.setIconified(true);
+    }
+
+    public static void stageFadeOut() throws InterruptedException {
+        double opacity = 1.0;
+
+        while (opacity > 0.0) {
+            Thread.sleep(5);
+            opacity -= 0.01;
+
+            // Assure que l'opacité ne flambe pas
+            if (opacity < 0.0) {
+                opacity = 0.0;
+            }
+
+            primaryStage.setOpacity(opacity);
+        }
+
+        reduceWindow();
+        MainMenu.resetRectangle();
+        primaryStage.setOpacity(1.0);
     }
 }
