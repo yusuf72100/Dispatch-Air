@@ -105,7 +105,7 @@ public class Main extends Application {
         double opacity = 1.0;
 
         while (opacity > 0.0) {
-            Thread.sleep(5);
+            Thread.sleep(1);
             opacity -= 0.01;
 
             // Assure que l'opacité ne flambe pas

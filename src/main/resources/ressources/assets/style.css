@@ -36,6 +36,7 @@
     -fx-background-size: 15px 15px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
+    -fx-opacity: 1;
     -fx-transition: background-color 0.3s ease-in-out;
 }
 
@@ -63,4 +64,3 @@
     -fx-background-image: url('img/window_reduce.png');
     -fx-background-size: cover;
 }
-

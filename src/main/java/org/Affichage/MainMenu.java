@@ -3,10 +3,8 @@ package org.Affichage;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -25,9 +23,9 @@ public class MainMenu implements Menu {
     protected static Text title;
     protected static Button minimizeButton;
     protected static Button exitButton;
-    protected static Rectangle rectangle;
-    protected static ImagePattern imagePattern;
-    protected static Image image;
+    protected static Rectangle reduceRectangle;
+    protected static ImagePattern reduceImagePattern;
+    protected static Image reduceImage;
     protected static double WIDTH;
     protected static double HEIGHT;
 
@@ -42,10 +40,10 @@ public class MainMenu implements Menu {
         MainMenu.HEIGHT = HEIGHT;
         minimizeButton = new Button();
         exitButton = new Button();
-        rectangle = new Rectangle(WIDTH, HEIGHT);
-        image = new Image(Launcher.chargerFichierEnUrl(Launcher.normaliserChemin(Launcher.dossierAssets + "/img/window_reduce.png")));
-        imagePattern = new ImagePattern(image);
-        rectangle.setFill(imagePattern);
+        reduceRectangle = new Rectangle(WIDTH, HEIGHT);
+        reduceImage = new Image(Launcher.chargerFichierEnUrl(Launcher.normaliserChemin(Launcher.dossierAssets + "/img/window_reduce.png")));
+        reduceImagePattern = new ImagePattern(reduceImage);
+        reduceRectangle.setFill(reduceImagePattern);
 
         minimizeButton.setPrefSize(30, 50);
         exitButton.setPrefSize(30, 50);
@@ -56,7 +54,7 @@ public class MainMenu implements Menu {
 
         minimizeButton.setOnAction(e -> {
             // Animation du rectangle avec une durée de 1 seconde pour une animation rapide
-            TranslateTransition transition = new TranslateTransition(Duration.seconds(0.5), rectangle);
+            TranslateTransition transition = new TranslateTransition(Duration.seconds(0.5), reduceRectangle);
             transition.setFromX(-WIDTH); // Départ à gauche
             transition.setToX(0); // Traverse pour occuper toute la vue
 
@@ -84,7 +82,6 @@ public class MainMenu implements Menu {
             transition.play();
         });
 
-
         exitButton.setOnAction(e -> {
             Platform.exit();
         });
@@ -92,7 +89,7 @@ public class MainMenu implements Menu {
         title = new Text("D i s p a t c h ' A i r");
         title.setFont(Font.font("BrownRosemary", 20));
         title.setFill(Color.WHITE);
-        title.setTranslateX(50);
+        title.setTranslateX(20);
 
         header = new HBox();
         header.setMaxSize(WIDTH, 30);
@@ -105,12 +102,12 @@ public class MainMenu implements Menu {
         header.setAlignment(Pos.CENTER_LEFT);
 
         // Rectangle noir pour l'animation
-        rectangle.setTranslateX(-WIDTH); // Initialement en dehors de la vue, à gauche
-        rectangle.getStyleClass().add("reduce-rectangle");
+        reduceRectangle.setTranslateX(-WIDTH); // Initialement en dehors de la vue, à gauche
+        reduceRectangle.getStyleClass().add("reduce-rectangle");
 
         mainPane = new StackPane();
         mainPane.setPrefSize(WIDTH, HEIGHT);
-        mainPane.getChildren().addAll(header, rectangle);
+        mainPane.getChildren().addAll(header, reduceRectangle);
         mainPane.getStyleClass().add("mainPane");
 
         StackPane.setAlignment(header, Pos.TOP_CENTER);
@@ -118,8 +115,9 @@ public class MainMenu implements Menu {
         return mainPane;
     }
 
+
     public static void resetRectangle() {
-        rectangle.setTranslateX(-MainMenu.WIDTH);
+        reduceRectangle.setTranslateX(-MainMenu.WIDTH);
     }
 
     public static HBox getHeader() {
