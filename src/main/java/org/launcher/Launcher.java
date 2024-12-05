@@ -1,5 +1,6 @@
 package org.launcher;
 
+import com.google.cloud.storage.*;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import org.Affichage.Main;
@@ -12,12 +13,18 @@ import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import java.nio.file.Paths;
+
 /**
  * La classe qui correspond au lanceur de l'application
  *
  * @author Yamis
  */
 public class Launcher {
+
+  private static String projectId = "dispatchair";
+  private static String bucketName = "dispatchair";
+  private static String objectName = "sample.txt";
 
   /**
    * L'instance unique de la classe Launcher
@@ -70,6 +77,31 @@ public class Launcher {
     }
     return instance;
   }
+
+  public static void uploadFile() throws IOException {
+    Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
+
+    BlobId blobId = BlobId.of(bucketName, objectName);
+    BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+
+    String filePath = Launcher.normaliserChemin(dossierAssets + "/sample.txt");
+
+    storage.createFrom(blobInfo, Paths.get(filePath));
+  }
+
+  public static void downloadFiles() throws IOException {
+    Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
+
+    BlobId blobId = BlobId.of(bucketName, objectName);
+    Blob blob = storage.get(blobId);
+
+    String filePath = Launcher.normaliserChemin(dossierAssets + "/sample.txt");
+
+    blob.downloadTo(Paths.get(filePath));
+
+    System.out.println("File " + objectName + "downloaded to " + filePath);
+  }
+
 
   /**
    * Méthode pour obtenir le boolean qui indique si le mode verbose est actif
@@ -336,7 +368,7 @@ public class Launcher {
    * Méthode principale qui lance le Launcher
    * @param args Arguments de la ligne de commande
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     for (String arg : args) {
       if (arg.equals("--verbose")) {
         verbose = true;
@@ -420,6 +452,8 @@ public class Launcher {
       }
       // Chargement du modele
       loadModel();
+      // Telechargement des fichiers
+      downloadFiles();
       // Lancement de l'affichage
       Application.launch(Main.class, args);
 
@@ -427,5 +461,4 @@ public class Launcher {
       e.printStackTrace();
     }
   }
-
 }

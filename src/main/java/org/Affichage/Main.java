@@ -97,10 +97,10 @@ public class Main extends Application {
         }
     }
 
-    public static void reduceWindow() {
-        primaryStage.setIconified(true);
-    }
-
+    /**
+     * Réduit la fenetre avec animation de fondu
+     * @throws InterruptedException
+     */
     public static void stageFadeOut() throws InterruptedException {
         double opacity = 1.0;
 
@@ -116,8 +116,8 @@ public class Main extends Application {
             primaryStage.setOpacity(opacity);
         }
 
-        reduceWindow();
-        MainMenu.resetRectangle();
-        primaryStage.setOpacity(1.0);
+        primaryStage.setIconified(true);    // réduit la fenetre
+        MainMenu.resetRectangle();          // réinitialise la position du rectangle d'animation
+        primaryStage.setOpacity(1.0);       // reset de l'opacité de la fenetre
     }
 }
