@@ -70,11 +70,7 @@ public class MainMenu implements Menu {
 
             // Ajouter un listener pour attendre la fin de l'animation avant de réduire la fenêtre
             transition.setOnFinished(event -> {
-                try {
-                    Main.stageFadeOut();
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }
+                Main.stageFadeOut();
             });
 
             // Démarrer l'animation
@@ -113,7 +109,6 @@ public class MainMenu implements Menu {
 
         return mainPane;
     }
-
 
     public static void resetRectangle() {
         reduceRectangle.setTranslateX(-MainMenu.WIDTH);

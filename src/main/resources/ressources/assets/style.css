@@ -64,3 +64,8 @@
     -fx-background-image: url('img/window_reduce.png');
     -fx-background-size: cover;
 }
+
+.bootstrap {
+    -fx-background-image: url('img/bootstrap.gif');
+    -fx-background-size: cover;
+}

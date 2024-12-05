@@ -1,9 +1,9 @@
 package org.launcher;
 
-import com.google.cloud.storage.*;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import org.Affichage.Main;
+import org.bootstrap.Bootstrap;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -13,19 +13,12 @@ import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import java.nio.file.Paths;
-
 /**
  * La classe qui correspond au lanceur de l'application
  *
  * @author Yamis
  */
 public class Launcher {
-
-  private static String projectId = "dispatchair";
-  private static String bucketName = "dispatchair";
-  private static String objectName = "sample.txt";
-
   /**
    * L'instance unique de la classe Launcher
    */
@@ -77,31 +70,6 @@ public class Launcher {
     }
     return instance;
   }
-
-  public static void uploadFile() throws IOException {
-    Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-
-    BlobId blobId = BlobId.of(bucketName, objectName);
-    BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-
-    String filePath = Launcher.normaliserChemin(dossierAssets + "/sample.txt");
-
-    storage.createFrom(blobInfo, Paths.get(filePath));
-  }
-
-  public static void downloadFiles() throws IOException {
-    Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-
-    BlobId blobId = BlobId.of(bucketName, objectName);
-    Blob blob = storage.get(blobId);
-
-    String filePath = Launcher.normaliserChemin(dossierAssets + "/sample.txt");
-
-    blob.downloadTo(Paths.get(filePath));
-
-    System.out.println("File " + objectName + "downloaded to " + filePath);
-  }
-
 
   /**
    * Méthode pour obtenir le boolean qui indique si le mode verbose est actif
@@ -358,10 +326,16 @@ public class Launcher {
   }
 
   /**
-   * Méthode qui charge le modèle au lancement de l'application
+   * Vérifie la présence d'un fichier dans un emplacement
+   * @param directoryPath
+   * @param fileName
+   * @return
    */
-  public static void loadModel() {
+  public static boolean fileExists(String directoryPath, String fileName) {
+    File directory = new File(directoryPath);
+    File file = new File(directory, fileName);
 
+    return file.exists();
   }
 
   /**
@@ -450,12 +424,9 @@ public class Launcher {
         System.out.println("Lancement de l'application");
         System.out.println("---------------------------");
       }
-      // Chargement du modele
-      loadModel();
-      // Telechargement des fichiers
-      downloadFiles();
+
       // Lancement de l'affichage
-      Application.launch(Main.class, args);
+      Application.launch(Bootstrap.class, args);
 
     } catch (IOException e) {
       e.printStackTrace();

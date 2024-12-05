@@ -101,23 +101,38 @@ public class Main extends Application {
      * Réduit la fenetre avec animation de fondu
      * @throws InterruptedException
      */
-    public static void stageFadeOut() throws InterruptedException {
-        double opacity = 1.0;
+    public static void stageFadeOut() {
+        // Utilisation de Platform.runLater pour exécuter les mises à jour de l'UI sur le thread JavaFX
+        Platform.runLater(() -> {
+            double opacity = 1.0;
 
-        while (opacity > 0.0) {
-            Thread.sleep(1);
-            opacity -= 0.01;
+            // Réduction de l'opacité progressivement jusqu'à 0
+            while (opacity > 0.0) {
+                try {
+                    Thread.sleep(1);  // Petite pause pour créer l'effet de fondu
+                    opacity -= 0.01;
 
-            // Assure que l'opacité ne flambe pas
-            if (opacity < 0.0) {
-                opacity = 0.0;
+                    // S'assurer que l'opacité ne devienne pas négative
+                    if (opacity < 0.0) {
+                        opacity = 0.0;
+                    }
+
+                    // Mettre à jour l'opacité de la fenêtre
+                    primaryStage.setOpacity(opacity);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
-            primaryStage.setOpacity(opacity);
-        }
+            // Quand le fade-out est terminé, réduire la fenêtre (minimiser)
+            primaryStage.setIconified(true);
 
-        primaryStage.setIconified(true);    // réduit la fenetre
-        MainMenu.resetRectangle();          // réinitialise la position du rectangle d'animation
-        primaryStage.setOpacity(1.0);       // reset de l'opacité de la fenetre
+            // Appeler une méthode pour réinitialiser la position du rectangle d'animation, si nécessaire
+            MainMenu.resetRectangle();
+
+            // Remettre l'opacité à 1 pour préparer la fenêtre à être réutilisée
+            primaryStage.setOpacity(1.0);
+        });
     }
+
 }
