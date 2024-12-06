@@ -15,6 +15,8 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.launcher.Launcher;
 
+import java.util.Objects;
+
 
 public class MainMenu implements Menu {
     protected static StackPane mainPane;
@@ -40,7 +42,7 @@ public class MainMenu implements Menu {
         minimizeButton = new Button();
         exitButton = new Button();
         reduceRectangle = new Rectangle(WIDTH, HEIGHT);
-        reduceImage = new Image(Launcher.chargerFichierEnUrl(Launcher.normaliserChemin(Launcher.dossierAssets + "/img/window_reduce.png")));
+        reduceImage = new Image(Objects.requireNonNull(MainMenu.class.getResourceAsStream("/BOOT-INF/classes/ressources/assets/img/window_reduce.png")));
         reduceImagePattern = new ImagePattern(reduceImage);
         reduceRectangle.setFill(reduceImagePattern);
 

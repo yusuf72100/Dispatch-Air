@@ -7,6 +7,7 @@
     <groupId>org</groupId>
     <artifactId>DispatchAir</artifactId>
     <version>1.0</version>
+    <packaging>pom</packaging>
     <name>org</name>
 
     <properties>
@@ -16,8 +17,12 @@
         <start-class>org.launcher.Launcher</start-class>
     </properties>
 
+    <modules>
+        <module>Bootstrap</module>
+    </modules>
+
     <dependencies>
-        <!-- Dependance Google Cloud Storage -->
+        <!-- Dépendance Google Cloud Storage -->
         <dependency>
             <groupId>com.google.cloud</groupId>
             <artifactId>google-cloud-storage</artifactId>
@@ -28,6 +33,7 @@
             <artifactId>guava</artifactId>
             <version>33.2.1-jre</version>
         </dependency>
+
         <!-- Dependance JavaFx -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -82,83 +88,42 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
         <finalName>DispatchAir</finalName>
-        <defaultGoal>clean install</defaultGoal>
 
         <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
-                    <argLine>-Djunit.jupiter.extensions.autodetection.enabled=true</argLine>
-                </configuration>
-            </plugin>
-
             <!-- Plugin Maven Compilation -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
-                <!-- Compilation avec java 16 -->
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
             </plugin>
 
-            <!-- Plugin Maven JavaDoc -->
+            <!-- Plugin Maven Jar -->
             <plugin>
-                <!-- Création de la doc -->
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.4.0</version>
-                <configuration>
-                    <!-- Paramètre de sélection -->
-                    <show>private</show>
-
-                    <!-- Paramètre d'affichage -->
-                    <use>true</use>
-                    <windowtitle>${project.name}</windowtitle>
-                    <doctitle>Documentaion ${project.name}</doctitle>
-                    <doctitle>${project.name} ${project.version}</doctitle>
-                    <testDoctitle>Documentation des tests ${project.name}</testDoctitle>
-
-                    <!-- Chemin de génération -->
-                    <reportOutputDirectory>${project.basedir}/doc</reportOutputDirectory>
-                    <destDir>javadoc</destDir>
-                    <docfilessubdirs>true</docfilessubdirs>
-
-                    <!-- Paramètre génération -->
-                    <serialwarn>true</serialwarn>
-                    <failOnError>true</failOnError>
-                    <failOnWarnings>true</failOnWarnings>
-                </configuration>
-            </plugin>
-
-            <!-- Plugin Maven JavaFX -->
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
-                        <id>default-cli</id>
+                        <id>default-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
                         <configuration>
-                            <mainClass>${start-class}</mainClass>
-                            <launcher>app</launcher>
-                            <jlinkZipName>app</jlinkZipName>
-                            <jlinkImageName>app</jlinkImageName>
-                            <noManPages>true</noManPages>
-                            <stripDebug>true</stripDebug>
-                            <noHeaderFiles>true</noHeaderFiles>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>${start-class}</mainClass>
+                                </manifest>
+                            </archive>
                         </configuration>
                     </execution>
                 </executions>
@@ -166,12 +131,11 @@
 
             <!-- Plugin Maven Spring Boot -->
             <plugin>
-                <!-- Remise en forme du .jar -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.7.16</version>
                 <configuration>
-                    <mainClass>org.launcher.Launcher</mainClass>
+                    <mainClass>${start-class}</mainClass>
                     <layout>JAR</layout>
                 </configuration>
                 <executions>
@@ -182,9 +146,7 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
-
     </build>
 
 </project>

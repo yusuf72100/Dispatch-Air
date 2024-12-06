@@ -1,0 +1,71 @@
+@font-face {
+    font-family: 'BrownRosemary';
+    src: url("font/BrownRosemary.ttf");
+}
+
+.header {
+    /*-fx-background-color: radial-gradient(center 50% 0%, radius 80%, #1A1A1A, #111111);*/
+    -fx-background-color: #252422;
+    -fx-min-height: 20px;
+}
+
+.title{
+    -fx-font-family: 'BrownRosemary';
+    -fx-text-fill: white;
+    -fx-font-size: 30;
+    -fx-padding: 0 0 0 50;
+}
+
+.mainPane {
+    -fx-background-color: #fffcf2;
+}
+
+.button-withoutbg-reduce {
+    -fx-background-color: transparent;
+    -fx-background-image: url('img/reduce.png');
+    -fx-background-size: 10px 20px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-opacity: 1;
+    -fx-transition: background-color 0.3s ease-in-out;
+}
+
+.button-withoutbg-close {
+    -fx-background-color: transparent;
+    -fx-background-image: url('img/close.png');
+    -fx-background-size: 15px 15px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-opacity: 1;
+    -fx-transition: background-color 0.3s ease-in-out;
+}
+
+.button-withoutbg-close:hover {
+    -fx-background-color: rgb(255, 0, 0, 0.6);
+}
+
+.button-withoutbg-reduce:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+}
+
+.button-carre {
+    -fx-background-image: url('img/reduce.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-text-fill: #252422;
+    -fx-padding: 5 10;
+}
+
+.button-carre:hover {
+    -fx-background-color: #e0ac1e;
+}
+
+.reduce-rectangle {
+    -fx-background-image: url('img/window_reduce.png');
+    -fx-background-size: cover;
+}
+
+.bootstrap {
+    -fx-background-image: url('img/bootstrap.gif');
+    -fx-background-size: cover;
+}

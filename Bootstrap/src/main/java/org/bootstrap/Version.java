@@ -1,4 +1,4 @@
-package org.launcher;
+package org.bootstrap;
 
 import java.io.*;
 

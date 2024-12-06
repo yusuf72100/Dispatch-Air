@@ -17,6 +17,7 @@ import javafx.util.Duration;
 import org.launcher.Launcher;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class Main extends Application {
@@ -43,8 +44,7 @@ public class Main extends Application {
             Main = new Scene(root, WIDTH, HEIGHT, Color.TRANSPARENT);
 
             // Gestion du style
-            String cheminStyleCss = Launcher.normaliserChemin(Launcher.dossierAssets + "/style.css");
-            Main.getStylesheets().add(Launcher.chargerFichierEnUrl(cheminStyleCss));
+            Main.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/ressources/assets/style.css")).toExternalForm());
 
             // Mouvement fenêtre
             header.setOnMousePressed(new EventHandler<MouseEvent>() {

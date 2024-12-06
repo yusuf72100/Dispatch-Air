@@ -3,7 +3,6 @@ package org.launcher;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import org.Affichage.Main;
-import org.bootstrap.Bootstrap;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -372,7 +371,7 @@ public class Launcher {
     }
 
     // Chemins des dossiers de ressources
-    final String cheminDossierRessourcesJAR = "BOOT-INF/classes/ressources";
+    final String cheminDossierRessourcesJAR = "BOOT-INF/classes/ressources/datas";
     final String cheminDossierDestinationRessourceDispatchAir = Launcher.dossierdispatchAir;
 
     // Vérifie si le programme est lancé dans le même dossier que le .jar (compare le dossier parent du .jar et du dossier de ressources local)
@@ -426,7 +425,7 @@ public class Launcher {
       }
 
       // Lancement de l'affichage
-      Application.launch(Bootstrap.class, args);
+      Application.launch(Main.class, args);
 
     } catch (IOException e) {
       e.printStackTrace();

@@ -7,26 +7,21 @@ import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import org.Affichage.MainMenu;
-import org.launcher.Launcher;
-import org.launcher.Version;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-public class Bootstrap extends Application {
+public class Main extends Application {
     /* Google Cloud Storage */
     private static String projectId = "dispatchair";
     private static String bucketName = "dispatchair";
@@ -52,7 +47,7 @@ public class Bootstrap extends Application {
         BlobId blobId = BlobId.of(bucketName, objectName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
 
-        String filePath = Launcher.normaliserChemin(Launcher.dossierAssets + "/sample.txt");
+        String filePath = "/sample.txt";
 
         storage.createFrom(blobInfo, Paths.get(filePath));
     }
@@ -63,25 +58,55 @@ public class Bootstrap extends Application {
         BlobId blobId = BlobId.of(bucketName, objName);
         Blob blob = storage.get(blobId);
 
-        String filePath = Launcher.normaliserChemin(Launcher.dossierAssets + file);
+        blob.downloadTo(Paths.get(file));
+    }
 
-        blob.downloadTo(Paths.get(filePath));
+    // Méthode pour exécuter un fichier .jar spécifique
+    private static void executeJar(String jarFilePath) {
+        try {
+            // Crée la commande pour exécuter le .jar
+            String command = "java -jar " + jarFilePath;
+
+            // Démarre le processus
+            Process process = Runtime.getRuntime().exec(command);
+
+            // Attendre que le processus se termine avant de continuer (si nécessaire)
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Met à jour le logiciel si nécessaire
      */
     private static void updateLauncher() throws IOException {
-        downloadFiles("version.vs", "/new_version.vs");
+        downloadFiles("version.vs", "DispatchAir/new_version.vs");
 
-        version = Version.deserialize(Launcher.dossierAssets + "/version.vs");
-        Version newVersion = Version.deserialize(Launcher.dossierAssets + "/new_version.vs");
+        File file = new File("DispatchAir/version.vs");
 
-        System.out.println(version.getVersion() + " && " + newVersion.getVersion());
+        if(file.exists()) {
+            version = Version.deserialize("DispatchAir/version.vs");
+            Version newVersion = Version.deserialize("DispatchAir/new_version.vs");
 
-        if(!Objects.equals(version.getVersion(), newVersion.getVersion())) {
-            boolean deleted = new File(Launcher.dossierAssets + "/version.vs").delete();
-            boolean renamed = new File(Launcher.dossierAssets + "/new_version.vs").renameTo(new File(Launcher.dossierAssets + "/version.vs"));
+            if(!Objects.equals(version.getVersion(), newVersion.getVersion())) {
+                boolean deleted = new File("DispatchAir/version.vs").delete();
+                deleted = new File("DispatchAir/new_version.vs").delete();
+
+                downloadFiles("DispatchAir.jar", "DispatchAir.jar");
+                executeJar("DispatchAir.jar");
+
+                // Fermer l'application actuelle
+                System.exit(0);
+            } else {
+                /* Déjà à jour */
+            }
+        } else {
+            downloadFiles("DispatchAir.jar", "DispatchAir.jar");
+            executeJar("DispatchAir.jar");
+
+            // Fermer l'application actuelle
+            System.exit(0);
         }
     }
 
@@ -90,12 +115,13 @@ public class Bootstrap extends Application {
         try {
             primaryStage = primary;
 
+            updateLauncher();
+
             root = new StackPane();
             root.setPrefSize(WIDTH, HEIGHT);
 
             // Charger le GIF
-            String cheminGifBackground = Launcher.normaliserChemin(Launcher.dossierAssets + "/img/bootstrap.gif");
-            Image gifImage = new Image(Launcher.chargerFichierEnUrl(cheminGifBackground));
+            Image gifImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/BOOT-INF/classes/ressources/assets/img/bootstrap.gif")));
 
             // Créer un ImageView pour afficher le GIF
             ImageView gifView = new ImageView(gifImage);
@@ -129,8 +155,7 @@ public class Bootstrap extends Application {
                 PauseTransition pause = new PauseTransition(Duration.seconds(2));
                 pause.setOnFinished(pauseEvent -> {
                     // Remplacer le GIF par une image statique après 3 secondes
-                    String cheminImageBackground = Launcher.normaliserChemin(Launcher.dossierAssets + "/img/bootstrap.png");
-                    Image staticImage = new Image(Launcher.chargerFichierEnUrl(cheminImageBackground));
+                    Image staticImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/BOOT-INF/classes/ressources/assets/img/bootstrap.png")));
 
                     // Créer un nouvel ImageView pour l'image statique
                     ImageView staticImageView = new ImageView(staticImage);
@@ -173,9 +198,7 @@ public class Bootstrap extends Application {
             });
 
             // Gestion de l'icône
-            String cheminImgIcon = Launcher.normaliserChemin(Launcher.dossierAssets + "/img/logo.png");
-            primary.getIcons().add(Launcher.chargerImage(cheminImgIcon));
-
+            primary.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("/ressources/assets/img/logo.png")).toExternalForm()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -206,5 +229,9 @@ public class Bootstrap extends Application {
                 }
             }
         });
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
