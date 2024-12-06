@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -88,8 +89,7 @@ public class Main extends Application {
             });
 
             // Gestion de l'icône
-            String cheminImgIcon = Launcher.normaliserChemin(Launcher.dossierAssets + "/img/logo.png");
-            primary.getIcons().add(Launcher.chargerImage(cheminImgIcon));
+            primary.getIcons().add(new Image(Objects.requireNonNull(MainMenu.class.getResource("/ressources/assets/img/logo.png")).toExternalForm()));
 
 
         } catch (Exception e) {

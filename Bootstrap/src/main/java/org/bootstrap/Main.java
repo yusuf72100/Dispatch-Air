@@ -88,8 +88,9 @@ public class Main extends Application {
      */
     private static void updateLauncher() throws IOException {
         File versionFile = new File("DispatchAir/version.vs");
+        File launcherFile = new File("Launcher.jar");
 
-        if(versionFile.exists()) {
+        if(versionFile.exists() && launcherFile.exists()) {
             downloadFiles("version.vs", "DispatchAir/new_version.vs");
 
             version = Version.deserialize("DispatchAir/version.vs");
