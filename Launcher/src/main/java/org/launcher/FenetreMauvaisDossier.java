@@ -49,7 +49,7 @@ public class FenetreMauvaisDossier extends Application {
      *
      * @param args Les arguments de la ligne de commande
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         launch(args);
-    }
+    }*/
 }

@@ -12,6 +12,8 @@ import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import static javafx.application.Application.launch;
+
 /**
  * La classe qui correspond au lanceur de l'application
  *
@@ -363,7 +365,7 @@ public class Launcher {
 
     // Nettoie le chemin du dossier parent du fichier JAR
     cheminDossierParentJar = cheminDossierParentJar.replace("file:","");
-    cheminDossierParentJar = cheminDossierParentJar.replace("DispatchAir.jar!/BOOT-INF/classes!/","");
+    cheminDossierParentJar = cheminDossierParentJar.replace("Launcher.jar!/BOOT-INF/classes!/","");
 
     // Enleve le slash initial pour les chemins Windows
     if (cheminDossierParentJar.matches("^/[A-Za-z]:/.*")) {
@@ -386,10 +388,10 @@ public class Launcher {
     }
 
     // Vérifie si le programme est lancé dans le même dossier que le .jar
-    if ( normaliserChemin(cheminDossierParentJar).compareTo(normaliserChemin(cheminDossierParentRessourcesLocal)) != 0 ) {
-      Application.launch(FenetreMauvaisDossier.class);
+    /*if ( normaliserChemin(cheminDossierParentJar).compareTo(normaliserChemin(cheminDossierParentRessourcesLocal)) != 0 ) {
+      launch(FenetreMauvaisDossier.class);
       return;
-    }
+    }*/
 
     try {
       if (verbose) {
@@ -398,7 +400,7 @@ public class Launcher {
       }
 
       // Ouvre le fichier JAR
-      JarFile fichierJar = new JarFile(cheminDossierParentJar+"DispatchAir.jar");
+      JarFile fichierJar = new JarFile(cheminDossierParentJar+"Launcher.jar");
 
       // Vérifie si les ressources sont complètes
       if (!isRessourcesCompletes(fichierJar, cheminDossierRessourcesJAR, cheminDossierDestinationRessourceDispatchAir)) {
@@ -414,7 +416,7 @@ public class Launcher {
       // Detection du paramètre --tools-puzzle-generator (seulement ce paramètre)
       for (String arg : args) {
         if (arg.equals("--tools-adminmanager")) {
-          Application.launch(org.tools.AdminLauncher.Main.class, args);
+          launch(org.tools.AdminLauncher.Main.class, args);
           return;
         }
       }
@@ -425,7 +427,11 @@ public class Launcher {
       }
 
       // Lancement de l'affichage
-      Application.launch(Main.class, args);
+      for (String arg : args) {
+        if (arg.equals("--tools-launch")) {
+          launch(Main.class, args);
+        }
+      }
 
     } catch (IOException e) {
       e.printStackTrace();

@@ -62,13 +62,18 @@ public class Main extends Application {
     }
 
     // Méthode pour exécuter un fichier .jar spécifique
-    private static void executeJar(String jarFilePath) {
+    private static void executeJar(String jarFilePath, String... args) {
         try {
-            // Crée la commande pour exécuter le .jar
-            String command = "java -jar " + jarFilePath;
+            // Construire la commande pour exécuter le JAR avec les arguments
+            StringBuilder command = new StringBuilder("java -jar " + jarFilePath);
 
-            // Démarre le processus
-            Process process = Runtime.getRuntime().exec(command);
+            // Ajouter les arguments si présents
+            for (String arg : args) {
+                command.append(" ").append(arg);
+            }
+
+            // Démarrer le processus
+            Process process = Runtime.getRuntime().exec(command.toString());
 
             // Attendre que le processus se termine avant de continuer (si nécessaire)
             process.waitFor();
@@ -77,45 +82,52 @@ public class Main extends Application {
         }
     }
 
+
     /**
      * Met à jour le logiciel si nécessaire
      */
     private static void updateLauncher() throws IOException {
-        downloadFiles("version.vs", "DispatchAir/new_version.vs");
+        File versionFile = new File("DispatchAir/version.vs");
 
-        File file = new File("DispatchAir/version.vs");
+        if(versionFile.exists()) {
+            downloadFiles("version.vs", "DispatchAir/new_version.vs");
 
-        if(file.exists()) {
             version = Version.deserialize("DispatchAir/version.vs");
             Version newVersion = Version.deserialize("DispatchAir/new_version.vs");
 
             if(!Objects.equals(version.getVersion(), newVersion.getVersion())) {
+                System.out.println("Update en cours...");
                 boolean deleted = new File("DispatchAir/version.vs").delete();
                 deleted = new File("DispatchAir/new_version.vs").delete();
 
-                downloadFiles("DispatchAir.jar", "DispatchAir.jar");
-                executeJar("DispatchAir.jar");
+                downloadFiles("Launcher.jar", "Launcher.jar");
 
-                // Fermer l'application actuelle
-                System.exit(0);
             } else {
                 /* Déjà à jour */
+                boolean deleted = new File("DispatchAir/new_version.vs").delete();
             }
         } else {
-            downloadFiles("DispatchAir.jar", "DispatchAir.jar");
-            executeJar("DispatchAir.jar");
-
-            // Fermer l'application actuelle
-            System.exit(0);
+            downloadFiles("Launcher.jar", "Launcher.jar");
         }
+
+        // Lancer Launcher.jar dans un nouveau thread pour éviter de bloquer le processus du bootstrap
+        new Thread(() -> {
+            try {
+                executeJar("Launcher.jar", "--tools-launch");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        // Fermer le bootstrap une fois Launcher.jar lancé
+        Platform.exit();
+        System.exit(0);
     }
 
     @Override
     public void start(Stage primary) throws Exception {
         try {
             primaryStage = primary;
-
-            updateLauncher();
 
             root = new StackPane();
             root.setPrefSize(WIDTH, HEIGHT);
@@ -168,6 +180,13 @@ public class Main extends Application {
                     // Remplacer l'ImageView du GIF par l'ImageView de l'image statique
                     root.getChildren().clear();
                     root.getChildren().add(staticImageView);
+
+                    // Appeler updateLauncher après que tout soit terminé
+                    try {
+                        updateLauncher();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 });
                 pause.play();
             });

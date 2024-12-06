@@ -14,11 +14,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.0</junit.version>
         <javafx.version>17.0.10</javafx.version>
-        <start-class>org.launcher.Launcher</start-class>
     </properties>
 
     <modules>
         <module>Bootstrap</module>
+        <module>Launcher</module>
     </modules>
 
     <dependencies>

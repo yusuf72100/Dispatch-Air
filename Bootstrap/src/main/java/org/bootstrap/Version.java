@@ -6,6 +6,10 @@ public class Version implements Serializable {
     private static final long serialVersionUID = 1L;
     private String version;
 
+    public Version(String version) {
+        this.version = version;
+    }
+
     public String getVersion() {
         return version;
     }
@@ -27,16 +31,19 @@ public class Version implements Serializable {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
             version = (Version) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error deserializing file: " + fileName);
             e.printStackTrace();
+            // Retourner une valeur par défaut si la désérialisation échoue
+            version = new Version("alpha-0.0.0"); // Exemple de valeur par défaut
         }
         return version;
     }
 
-    public static void main(String[] args) {
-        Version version = new Version();
-        version.setVersion("alpha-0.0.1");
+
+    /*public static void main(String[] args) {
+        Version version = new Version("alpha-0.0.1");
 
         // Serialize the object
         version.serialize("version.vs");
-    }
+    }*/
 }
