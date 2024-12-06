@@ -90,31 +90,38 @@ public class Main extends Application {
         File versionFile = new File("DispatchAir/version.vs");
         File launcherFile = new File("Launcher.jar");
 
-        if(versionFile.exists() && launcherFile.exists()) {
-            downloadFiles("version.vs", "DispatchAir/new_version.vs");
+        if(InternetChecker.isInternetAvailable()) {
+            // On vérifie la mise à jour
+            if(versionFile.exists() && launcherFile.exists()) {
+                downloadFiles("version.vs", "DispatchAir/new_version.vs");
 
-            version = Version.deserialize("DispatchAir/version.vs");
-            Version newVersion = Version.deserialize("DispatchAir/new_version.vs");
+                version = Version.deserialize("DispatchAir/version.vs");
+                Version newVersion = Version.deserialize("DispatchAir/new_version.vs");
 
-            if(!Objects.equals(version.getVersion(), newVersion.getVersion())) {
-                System.out.println("Update en cours...");
-                boolean deleted = new File("DispatchAir/version.vs").delete();
-                deleted = new File("DispatchAir/new_version.vs").delete();
+                if(!Objects.equals(version.getVersion(), newVersion.getVersion())) {
+                    System.out.println("Update en cours...");
+                    boolean deleted = new File("DispatchAir/version.vs").delete();
+                    deleted = new File("DispatchAir/new_version.vs").delete();
 
-                downloadFiles("Launcher.jar", "Launcher.jar");
+                    downloadFiles("Launcher.jar", "Launcher.jar");
 
+                } else {
+                    /* Déjà à jour */
+                    boolean deleted = new File("DispatchAir/new_version.vs").delete();
+                }
             } else {
-                /* Déjà à jour */
-                boolean deleted = new File("DispatchAir/new_version.vs").delete();
+                downloadFiles("Launcher.jar", "Launcher.jar");
             }
-        } else {
-            downloadFiles("Launcher.jar", "Launcher.jar");
         }
 
         // Lancer Launcher.jar dans un nouveau thread pour éviter de bloquer le processus du bootstrap
         new Thread(() -> {
             try {
-                executeJar("Launcher.jar", "--tools-launch");
+                if(launcherFile.exists()) {
+                    executeJar("Launcher.jar", "--tools-launch");
+                } else {
+                    // Une erreur est survenue
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
