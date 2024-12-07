@@ -7,7 +7,21 @@
     -fx-accent: #eb5e28; /* Couleur de la barre de progression */
     -fx-control-inner-background: transparent; /* Couleur de l'arrière-plan */
     -fx-border-insets: 0; /* Pas de marges */
-    -fx-translate-y: -10px; /* Décale la barre vers le bas */
+    -fx-border-color: transparent; /* Pas de bordure */
+}
+
+.progress-bar > .bar {
+    -fx-background-insets: 0; /* Pas de marges autour */
+    -fx-border-width: 0; /* Pas de bordure */
+    -fx-background-radius: 0; /* Pas de coins arrondis */
+}
+
+.progress-bar > .track {
+    -fx-text-box-border: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-background-insets: 0; /* Pas de marges autour */
+    -fx-border-width: 0; /* Pas de bordure */
+    -fx-background-radius: 0; /* Pas de coins arrondis */
 }
 
 .bootstrap {

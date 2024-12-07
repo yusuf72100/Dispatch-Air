@@ -90,10 +90,11 @@ public class Main extends Application {
                 waiting += 100;
             }
 
+            // On vérifie la sortie ( échec ou success )
             if(waiting < 10000) {
                 System.out.println("Le fichier JAR a été démarré avec succès !");
             } else {
-                // Problème de lancement
+                // Problème de lancement ( a pris trop de temps à se lancer )
             }
 
         } catch (IOException | InterruptedException | IllegalStateException e) {
@@ -143,6 +144,7 @@ public class Main extends Application {
             }
         }
 
+        // On vérifie si tout s'est bien passé
         if (launcherFile.exists()) {
             System.out.println("Lancement du launcher...");
             progressBar.setProgress(1.0); // Étape finale
@@ -157,17 +159,16 @@ public class Main extends Application {
         System.exit(0);
     }
 
-
     @Override
     public void start(Stage primary) throws Exception {
         try {
             primaryStage = primary;
 
-            // Racine principale avec VBox pour structurer les éléments verticalement
-            VBox root = new VBox();
+            // Racine principale avec StackPane pour empiler les éléments
+            StackPane root = new StackPane();
             root.setPrefSize(WIDTH, HEIGHT);
             root.setStyle("-fx-background-color: transparent;");
-            root.setAlignment(Pos.CENTER); // Centrer les éléments horizontalement
+            root.setAlignment(Pos.CENTER); // Centrer les éléments
 
             // Charger le GIF
             Image gifImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/BOOT-INF/classes/ressources/assets/img/bootstrap.gif")));
@@ -180,15 +181,15 @@ public class Main extends Application {
             gifView.setFitHeight(HEIGHT); // Laisser de la place pour la ProgressBar
             gifView.setPreserveRatio(true); // Conserver les proportions de l'image
 
-            // Barre de progression en bas
+            // Barre de progression en bas de la fenêtre
             progressBar = new ProgressBar(0);
-            progressBar.getStyleClass().add("progress-bar");
+            //progressBar.getStyleClass().add("progress-bar");
             progressBar.setPrefWidth(WIDTH); // La largeur de la ProgressBar correspond à la fenêtre
             progressBar.setMaxHeight(10); // Ajuster la hauteur si nécessaire
+            StackPane.setAlignment(progressBar, Pos.BOTTOM_CENTER);
 
-            // Ajouter le GIF et la ProgressBar dans la VBox
+            // Ajouter le GIF et la ProgressBar dans le StackPane
             root.getChildren().addAll(gifView, progressBar);
-            VBox.setVgrow(gifView, Priority.ALWAYS); // Faire en sorte que l'image prenne tout l'espace disponible
 
             // Gestion de la scène
             Scene mainScene = new Scene(root, WIDTH, HEIGHT, Color.TRANSPARENT);
@@ -219,16 +220,14 @@ public class Main extends Application {
 
                     // Ajuster le ImageView pour qu'il remplisse la fenêtre
                     staticImageView.setFitWidth(WIDTH);
-                    staticImageView.setFitHeight(HEIGHT - 20);
+                    staticImageView.setFitHeight(HEIGHT);
                     staticImageView.setPreserveRatio(true);
 
                     // Remplacer le contenu de la VBox
                     root.getChildren().set(0, staticImageView); // Remplacer l'ImageView du GIF par l'image statique
 
                     root.setPrefSize(WIDTH, HEIGHT);
-                    root.setStyle("-fx-background-color: transparent;"); // Aucun fond visible
                     root.setAlignment(Pos.CENTER); // Centrage des éléments
-                    root.setSpacing(0); // Pas d'espacement entre les éléments
 
                     // Appeler updateLauncher après que tout soit terminé
                     new Thread(() -> {
@@ -260,8 +259,6 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-
-
 
     /**
      * Réduit la fenetre avec animation de fondu
