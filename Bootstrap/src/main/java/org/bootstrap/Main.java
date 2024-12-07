@@ -7,7 +7,9 @@ import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -19,6 +21,9 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -32,14 +37,12 @@ public class Main extends Application {
     private double xOffset = 0;
     private double yOffset = 0;
 
-    private static Scene Main;
     private static Stage primaryStage;
 
     private static final double WIDTH = 800;
     private static final double HEIGHT = 450;
 
-    private static StackPane root;
-    private static HBox header;
+    private static ProgressBar progressBar;
 
     public static void uploadFile() throws IOException {
         Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
@@ -64,20 +67,36 @@ public class Main extends Application {
     // Méthode pour exécuter un fichier .jar spécifique
     private static void executeJar(String jarFilePath, String... args) {
         try {
-            // Construire la commande pour exécuter le JAR avec les arguments
-            StringBuilder command = new StringBuilder("java -jar " + jarFilePath);
+            int waiting = 0;
 
-            // Ajouter les arguments si présents
-            for (String arg : args) {
-                command.append(" ").append(arg);
-            }
+            // Construire la commande avec ProcessBuilder
+            List<String> command = new ArrayList<>();
+            command.add("java");
+            command.add("-jar");
+            command.add(jarFilePath);
+            command.addAll(Arrays.asList(args)); // Ajouter les arguments supplémentaires
+
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+
+            // Rediriger la sortie et les erreurs pour les afficher dans la console actuelle
+            processBuilder.inheritIO();
 
             // Démarrer le processus
-            Process process = Runtime.getRuntime().exec(command.toString());
+            Process process = processBuilder.start();
 
-            // Attendre que le processus se termine avant de continuer (si nécessaire)
-            process.waitFor();
-        } catch (IOException | InterruptedException e) {
+            // Vérifier si le processus a démarré correctement
+            while(!process.isAlive() && waiting < 10000) {
+                Thread.sleep(100); // Petite pause pour laisser le processus se stabiliser
+                waiting += 100;
+            }
+
+            if(waiting < 10000) {
+                System.out.println("Le fichier JAR a été démarré avec succès !");
+            } else {
+                // Problème de lancement
+            }
+
+        } catch (IOException | InterruptedException | IllegalStateException e) {
             e.printStackTrace();
         }
     }
@@ -90,55 +109,65 @@ public class Main extends Application {
         File versionFile = new File("DispatchAir/version.vs");
         File launcherFile = new File("Launcher.jar");
 
-        if(InternetChecker.isInternetAvailable()) {
-            // On vérifie la mise à jour
-            if(versionFile.exists() && launcherFile.exists()) {
+        if (InternetChecker.isInternetAvailable()) {
+            progressBar.setProgress(0.1); // Étape 1
+
+            if (versionFile.exists() && launcherFile.exists()) {
+                System.out.println("Téléchargement du fichier version...");
                 downloadFiles("version.vs", "DispatchAir/new_version.vs");
+                progressBar.setProgress(0.3); // Étape 2
 
                 version = Version.deserialize("DispatchAir/version.vs");
                 Version newVersion = Version.deserialize("DispatchAir/new_version.vs");
 
-                if(!Objects.equals(version.getVersion(), newVersion.getVersion())) {
+                if (!Objects.equals(version.getVersion(), newVersion.getVersion())) {
                     System.out.println("Update en cours...");
+
                     boolean deleted = new File("DispatchAir/version.vs").delete();
                     deleted = new File("DispatchAir/new_version.vs").delete();
 
+                    System.out.println("Téléchargement de la mise à jour en cours...");
                     downloadFiles("Launcher.jar", "Launcher.jar");
+                    progressBar.setProgress(0.8); // Étape 3
 
+                    System.out.println("Téléchargement terminé!");
                 } else {
-                    /* Déjà à jour */
                     boolean deleted = new File("DispatchAir/new_version.vs").delete();
+                    System.out.println("Launcher déjà à jour!");
                 }
             } else {
+                System.out.println("Téléchargement de la mise à jour en cours...");
                 downloadFiles("Launcher.jar", "Launcher.jar");
+                progressBar.setProgress(0.8); // Étape 3
+                System.out.println("Téléchargement terminé!");
             }
         }
 
-        // Lancer Launcher.jar dans un nouveau thread pour éviter de bloquer le processus du bootstrap
-        new Thread(() -> {
-            try {
-                if(launcherFile.exists()) {
-                    executeJar("Launcher.jar", "--tools-launch");
-                } else {
-                    // Une erreur est survenue
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
+        if (launcherFile.exists()) {
+            System.out.println("Lancement du launcher...");
+            progressBar.setProgress(1.0); // Étape finale
+            executeJar("Launcher.jar", "--tools-launch");
+        } else {
+            // Une erreur est survenue (pas d'internet)
+        }
 
         // Fermer le bootstrap une fois Launcher.jar lancé
+        System.out.println("Fermeture du bootstrap...");
         Platform.exit();
         System.exit(0);
     }
+
 
     @Override
     public void start(Stage primary) throws Exception {
         try {
             primaryStage = primary;
 
-            root = new StackPane();
+            // Racine principale avec VBox pour structurer les éléments verticalement
+            VBox root = new VBox();
             root.setPrefSize(WIDTH, HEIGHT);
+            root.setStyle("-fx-background-color: transparent;");
+            root.setAlignment(Pos.CENTER); // Centrer les éléments horizontalement
 
             // Charger le GIF
             Image gifImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/BOOT-INF/classes/ressources/assets/img/bootstrap.gif")));
@@ -147,23 +176,31 @@ public class Main extends Application {
             ImageView gifView = new ImageView(gifImage);
 
             // Ajuster le ImageView pour qu'il remplisse la fenêtre
-            gifView.setFitWidth(WIDTH); // Ajustez la largeur selon vos besoins
-            gifView.setFitHeight(HEIGHT); // Ajustez la hauteur selon vos besoins
+            gifView.setFitWidth(WIDTH);
+            gifView.setFitHeight(HEIGHT); // Laisser de la place pour la ProgressBar
             gifView.setPreserveRatio(true); // Conserver les proportions de l'image
 
-            // Ajouter l'ImageView à la racine (StackPane)
-            root.getChildren().add(gifView);
+            // Barre de progression en bas
+            progressBar = new ProgressBar(0);
+            progressBar.getStyleClass().add("progress-bar");
+            progressBar.setPrefWidth(WIDTH); // La largeur de la ProgressBar correspond à la fenêtre
+            progressBar.setMaxHeight(10); // Ajuster la hauteur si nécessaire
+
+            // Ajouter le GIF et la ProgressBar dans la VBox
+            root.getChildren().addAll(gifView, progressBar);
+            VBox.setVgrow(gifView, Priority.ALWAYS); // Faire en sorte que l'image prenne tout l'espace disponible
 
             // Gestion de la scène
-            Main = new Scene(root, WIDTH, HEIGHT, Color.TRANSPARENT);
+            Scene mainScene = new Scene(root, WIDTH, HEIGHT, Color.TRANSPARENT);
+
+            mainScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/BOOT-INF/classes/ressources/assets/style.css")).toExternalForm());
 
             // Animation de fondu
             primary.setOpacity(0.0);
             primary.initStyle(StageStyle.UNDECORATED);
-            primary.setScene(Main);
+            primary.setScene(mainScene);
             primary.setTitle("Dispatch'Air");
-            primary.setResizable(true);
-            primary.setMaximized(false);
+            primary.setResizable(false);
             primary.show();
 
             // Timeline pour l'animation de fondu
@@ -182,19 +219,25 @@ public class Main extends Application {
 
                     // Ajuster le ImageView pour qu'il remplisse la fenêtre
                     staticImageView.setFitWidth(WIDTH);
-                    staticImageView.setFitHeight(HEIGHT);
+                    staticImageView.setFitHeight(HEIGHT - 20);
                     staticImageView.setPreserveRatio(true);
 
-                    // Remplacer l'ImageView du GIF par l'ImageView de l'image statique
-                    root.getChildren().clear();
-                    root.getChildren().add(staticImageView);
+                    // Remplacer le contenu de la VBox
+                    root.getChildren().set(0, staticImageView); // Remplacer l'ImageView du GIF par l'image statique
+
+                    root.setPrefSize(WIDTH, HEIGHT);
+                    root.setStyle("-fx-background-color: transparent;"); // Aucun fond visible
+                    root.setAlignment(Pos.CENTER); // Centrage des éléments
+                    root.setSpacing(0); // Pas d'espacement entre les éléments
 
                     // Appeler updateLauncher après que tout soit terminé
-                    try {
-                        updateLauncher();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    new Thread(() -> {
+                        try {
+                            updateLauncher();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
                 });
                 pause.play();
             });
@@ -211,19 +254,6 @@ public class Main extends Application {
                 primaryStage.setY(event.getScreenY() - yOffset);
             });
 
-            primary.setOnCloseRequest(event -> {
-                Platform.exit();
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(1000);
-                        System.exit(0);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-                System.exit(0);
-            });
-
             // Gestion de l'icône
             primary.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("/ressources/assets/img/logo.png")).toExternalForm()));
         } catch (Exception e) {
@@ -232,13 +262,14 @@ public class Main extends Application {
     }
 
 
+
     /**
      * Réduit la fenetre avec animation de fondu
      * @throws InterruptedException
      */
     public static void stageFadeIn() {
         // Assurez-vous que la modification de l'opacité se fait sur le JavaFX Application Thread
-        Platform.runLater(() -> {
+        {
             double opacity = 0.0;
 
             // Animation de fondu
@@ -255,7 +286,7 @@ public class Main extends Application {
                     e.printStackTrace();
                 }
             }
-        });
+        }
     }
 
     public static void main(String[] args) {
