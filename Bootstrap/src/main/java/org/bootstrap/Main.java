@@ -106,7 +106,7 @@ public class Main extends Application {
     /**
      * Met à jour le logiciel si nécessaire
      */
-    private static void updateLauncher() throws IOException {
+    private static void updateLauncher() throws IOException, InterruptedException {
         File versionFile = new File("DispatchAir/version.vs");
         File launcherFile = new File("Launcher.jar");
 
@@ -146,8 +146,9 @@ public class Main extends Application {
 
         // On vérifie si tout s'est bien passé
         if (launcherFile.exists()) {
-            System.out.println("Lancement du launcher...");
             progressBar.setProgress(1.0); // Étape finale
+            Thread.sleep(1);
+            System.out.println("Lancement du launcher...");
             executeJar("Launcher.jar", "--tools-launch");
         } else {
             // Une erreur est survenue (pas d'internet)
@@ -183,7 +184,6 @@ public class Main extends Application {
 
             // Barre de progression en bas de la fenêtre
             progressBar = new ProgressBar(0);
-            //progressBar.getStyleClass().add("progress-bar");
             progressBar.setPrefWidth(WIDTH); // La largeur de la ProgressBar correspond à la fenêtre
             progressBar.setMaxHeight(10); // Ajuster la hauteur si nécessaire
             StackPane.setAlignment(progressBar, Pos.BOTTOM_CENTER);
@@ -233,7 +233,7 @@ public class Main extends Application {
                     new Thread(() -> {
                         try {
                             updateLauncher();
-                        } catch (IOException e) {
+                        } catch (IOException | InterruptedException e) {
                             throw new RuntimeException(e);
                         }
                     }).start();
