@@ -1,5 +1,5 @@
 .progress-bar {
-    -fx-pref-height: 10px; /* Rend la barre fine */
+    -fx-pref-height: 5px; /* Rend la barre fine */
     -fx-background-color: transparent; /* Arrière-plan transparent */
     -fx-padding: 0; /* Pas d'espacement autour */
     -fx-border-radius: 0; /* Pas de bord arrondi */

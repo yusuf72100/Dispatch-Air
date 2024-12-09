@@ -124,8 +124,8 @@ public class Main extends Application {
                 if (!Objects.equals(version.getVersion(), newVersion.getVersion())) {
                     System.out.println("Update en cours...");
 
-                    boolean deleted = new File("DispatchAir/version.vs").delete();
-                    deleted = new File("DispatchAir/new_version.vs").delete();
+                    new File("DispatchAir/version.vs").delete();
+                    new File("DispatchAir/new_version.vs").delete();
 
                     System.out.println("Téléchargement de la mise à jour en cours...");
                     downloadFiles("Launcher.jar", "Launcher.jar");
@@ -133,7 +133,7 @@ public class Main extends Application {
 
                     System.out.println("Téléchargement terminé!");
                 } else {
-                    boolean deleted = new File("DispatchAir/new_version.vs").delete();
+                    new File("DispatchAir/new_version.vs").delete();
                     System.out.println("Launcher déjà à jour!");
                 }
             } else {
