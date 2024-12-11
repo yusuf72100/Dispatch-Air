@@ -102,7 +102,6 @@ public class Main extends Application {
         }
     }
 
-
     /**
      * Met à jour le logiciel si nécessaire
      */
@@ -113,6 +112,7 @@ public class Main extends Application {
         if (InternetChecker.isInternetAvailable()) {
             progressBar.setProgress(0.1); // Étape 1
 
+            // Update launcher
             if (versionFile.exists() && launcherFile.exists()) {
                 System.out.println("Téléchargement du fichier version...");
                 downloadFiles("version.vs", "DispatchAir/new_version.vs");
@@ -142,14 +142,13 @@ public class Main extends Application {
                 progressBar.setProgress(0.8); // Étape 3
                 System.out.println("Téléchargement terminé!");
             }
-        }
 
-        // On vérifie si tout s'est bien passé
-        if (launcherFile.exists()) {
-            progressBar.setProgress(1.0); // Étape finale
-            Thread.sleep(1);
-            System.out.println("Lancement du launcher...");
-            executeJar("Launcher.jar", "--tools-launch");
+            // On vérifie si tout s'est bien passé
+            if (launcherFile.exists()) {
+                progressBar.setProgress(1.0); // Étape finale
+                System.out.println("Lancement du launcher...");
+                executeJar("Launcher.jar", "--tools-launch");
+            }
         } else {
             // Une erreur est survenue (pas d'internet)
         }
@@ -225,7 +224,6 @@ public class Main extends Application {
 
                     // Remplacer le contenu de la VBox
                     root.getChildren().set(0, staticImageView); // Remplacer l'ImageView du GIF par l'image statique
-
                     root.setPrefSize(WIDTH, HEIGHT);
                     root.setAlignment(Pos.CENTER); // Centrage des éléments
 

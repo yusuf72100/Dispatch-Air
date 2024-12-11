@@ -2,6 +2,9 @@ package org.bootstrap;
 
 import java.net.InetAddress;
 
+/**
+ * Vérifie si l'utilisateur a accès à internet
+ */
 public class InternetChecker {
     public static boolean isInternetAvailable() {
         try {

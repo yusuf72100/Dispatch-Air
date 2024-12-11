@@ -1,6 +1,5 @@
-package org.launcher;
+package org.Launcher;
 
-import javafx.application.Application;
 import javafx.scene.image.Image;
 import org.Affichage.Main;
 
@@ -13,6 +12,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import static javafx.application.Application.launch;
+import static org.Launcher.ApiCaller.makeApiCall;
 
 /**
  * La classe qui correspond au lanceur de l'application
@@ -79,6 +79,26 @@ public class Launcher {
    */
   public static boolean getVerbose() {
     return verbose;
+  }
+
+  public static boolean profilsExist() {
+    File directory = new File(Launcher.chargerFichierEnUrl(Launcher.normaliserChemin(Launcher.dossierProfils)));
+
+    return (directory.isDirectory() && Objects.requireNonNull(directory.listFiles(File::isFile)).length > 0);
+  }
+
+  public static void chargerProfils() {
+    List<File> profils = new ArrayList<>();
+
+    File directory = new File(Launcher.chargerFichierEnUrl(Launcher.normaliserChemin(Launcher.dossierProfils)));
+
+    File[] files = directory.listFiles(file -> file.isFile() && file.getName().endsWith(".profil"));
+
+    if (files != null) {
+      for (File file : files) {
+        profils.add(file);
+      }
+    }
   }
 
   /**
