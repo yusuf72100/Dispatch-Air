@@ -55,6 +55,12 @@ public class Launcher {
    */
   public static String dossierProfils = Launcher.dossierdispatchAir + "/profils";
 
+  public static String dossierVols = "/flights";
+
+  public static String dossierVolsAvailable = Launcher.dossierVols + "/available";
+
+  public static String dossierVolsHistorique = Launcher.dossierVols + "/historique";
+
   /**
    * Constructeur privé de la classe Launcher
    */
