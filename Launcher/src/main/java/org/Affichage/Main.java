@@ -85,7 +85,6 @@ public class Main extends Application {
             // Gestion de l'icône
             primary.getIcons().add(new Image(Objects.requireNonNull(MainMenu.class.getResource("/ressources/assets/img/logo.png")).toExternalForm()));
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }

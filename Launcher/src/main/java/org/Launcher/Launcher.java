@@ -12,7 +12,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import static javafx.application.Application.launch;
-import static org.Launcher.ApiCaller.makeApiCall;
 
 /**
  * La classe qui correspond au lanceur de l'application

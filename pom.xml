@@ -92,7 +92,6 @@
 
     <build>
         <finalName>DispatchAir</finalName>
-
         <plugins>
             <!-- Plugin Maven Compilation -->
             <plugin>

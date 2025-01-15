@@ -160,7 +160,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primary) throws Exception {
+    public void start(Stage primary) {
         try {
             primaryStage = primary;
 
@@ -195,7 +195,6 @@ public class Main extends Application {
 
             mainScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/BOOT-INF/classes/ressources/assets/style.css")).toExternalForm());
 
-            // Animation de fondu
             primary.setOpacity(0.0);
             primary.initStyle(StageStyle.UNDECORATED);
             primary.setScene(mainScene);
@@ -263,7 +262,6 @@ public class Main extends Application {
      * @throws InterruptedException
      */
     public static void stageFadeIn() {
-        // Assurez-vous que la modification de l'opacité se fait sur le JavaFX Application Thread
         {
             double opacity = 0.0;
 
@@ -271,7 +269,7 @@ public class Main extends Application {
             for (int i = 0; i <= 100; i++) {
                 final double currentOpacity = i / 100.0;  // Calculer l'opacité (entre 0 et 1)
 
-                // Mettre à jour l'opacité dans le JavaFX thread
+                // Mettre à jour l'opacité
                 primaryStage.setOpacity(currentOpacity);
 
                 try {

@@ -26,7 +26,7 @@ public class Profil implements Serializable {
             return deserializedObjects;
         }
 
-        // Filtrer les fichiers pour ne prendre que les .ser
+        // Filtrer les fichiers pour ne prendre que les .flight
         File[] files = folder.listFiles((dir, name) -> name.endsWith(".flight"));
         if (files == null || files.length == 0) {
             System.out.println("Aucun fichier sérialisé trouvé dans le dossier.");
@@ -39,6 +39,7 @@ public class Profil implements Serializable {
                 Object obj = ois.readObject();
                 deserializedObjects.add((Vol) obj);
                 System.out.println("Désérialisé : " + obj);
+
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("Erreur lors de la désérialisation de " + file.getName());
                 e.printStackTrace();
