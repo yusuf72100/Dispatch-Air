@@ -250,7 +250,7 @@ public class Main extends Application {
                 primaryStage.setY(event.getScreenY() - yOffset);
             });
 
-            // icone
+            // icon
             primary.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("/ressources/assets/img/logo.png")).toExternalForm()));
         } catch (Exception e) {
             e.printStackTrace();
