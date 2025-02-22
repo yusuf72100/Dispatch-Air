@@ -88,7 +88,7 @@ public class MainMenu implements Menu {
         title.setTranslateX(20);
 
         header = new HBox();
-        header.setMaxSize(WIDTH, 30);
+        header.setMaxSize(WIDTH, 30);   
         header.getStyleClass().add("header");
 
         Region spacer = new Region();

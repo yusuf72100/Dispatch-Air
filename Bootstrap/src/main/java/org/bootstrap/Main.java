@@ -149,14 +149,21 @@ public class Main extends Application {
                 System.out.println("Lancement du launcher...");
                 executeJar("Launcher.jar", "--tools-launch");
             }
+
+            // fermeture du bootstrap
+            close();
+
         } else {
             // Une erreur est survenue (pas d'internet)
+            System.out.println("Pas d'internet...");
+            // on lance le popup dans un thread javafx
+            Platform.runLater(() -> {
+                // on utilise un callback pour plus de modularité
+                PopupMessage.showPopup("Impossible de se connecter à internet. Veuillez vérifier votre connexion et réessayer.", () -> {
+                    close();
+                });
+            });
         }
-
-        // Fermer le bootstrap une fois Launcher.jar lancé
-        System.out.println("Fermeture du bootstrap...");
-        Platform.exit();
-        System.exit(0);
     }
 
     @Override
@@ -282,7 +289,15 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Ferme proprement le bootstrap
+     */
+    public static void close() {
+        System.out.println("Fermeture du bootstrap...");
+        Platform.exit();
+    }
+
     public static void main(String[] args) {
-        launch(args);
+        launch(org.bootstrap.Main.class, args);
     }
 }
