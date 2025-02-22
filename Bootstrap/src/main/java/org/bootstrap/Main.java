@@ -69,7 +69,6 @@ public class Main extends Application {
         try {
             int waiting = 0;
 
-            // Construire la commande avec ProcessBuilder
             List<String> command = new ArrayList<>();
             command.add("java");
             command.add("-jar");
@@ -77,11 +76,7 @@ public class Main extends Application {
             command.addAll(Arrays.asList(args)); // Ajouter les arguments supplémentaires
 
             ProcessBuilder processBuilder = new ProcessBuilder(command);
-
-            // Rediriger la sortie et les erreurs pour les afficher dans la console actuelle
             processBuilder.inheritIO();
-
-            // Démarrer le processus
             Process process = processBuilder.start();
 
             // Vérifier si le processus a démarré correctement
@@ -90,11 +85,19 @@ public class Main extends Application {
                 waiting += 100;
             }
 
-            // On vérifie la sortie ( échec ou success )
+            // On vérifie la sortie
             if(waiting < 10000) {
                 System.out.println("Le fichier JAR a été démarré avec succès !");
             } else {
                 // Problème de lancement ( a pris trop de temps à se lancer )
+                System.out.println("Pas d'internet...");
+                // on lance le popup dans un thread javafx
+                Platform.runLater(() -> {
+                    // on utilise un callback pour plus de modularité
+                    PopupMessage.showPopup("Impossible de se connecter à internet. Veuillez vérifier votre connexion et réessayer.", () -> {
+                        close();
+                    });
+                });
             }
 
         } catch (IOException | InterruptedException | IllegalStateException e) {
@@ -171,33 +174,27 @@ public class Main extends Application {
         try {
             primaryStage = primary;
 
-            // Racine principale avec StackPane pour empiler les éléments
             StackPane root = new StackPane();
             root.setPrefSize(WIDTH, HEIGHT);
             root.setStyle("-fx-background-color: transparent;");
             root.setAlignment(Pos.CENTER); // Centrer les éléments
 
-            // Charger le GIF
             Image gifImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/BOOT-INF/classes/ressources/assets/img/bootstrap.gif")));
-
-            // Créer un ImageView pour afficher le GIF
             ImageView gifView = new ImageView(gifImage);
 
-            // Ajuster le ImageView pour qu'il remplisse la fenêtre
             gifView.setFitWidth(WIDTH);
-            gifView.setFitHeight(HEIGHT); // Laisser de la place pour la ProgressBar
-            gifView.setPreserveRatio(true); // Conserver les proportions de l'image
+            gifView.setFitHeight(HEIGHT);
+            gifView.setPreserveRatio(true);
 
             // Barre de progression en bas de la fenêtre
             progressBar = new ProgressBar(0);
-            progressBar.setPrefWidth(WIDTH); // La largeur de la ProgressBar correspond à la fenêtre
-            progressBar.setMaxHeight(10); // Ajuster la hauteur si nécessaire
+            progressBar.setPrefWidth(WIDTH);
+            progressBar.setMaxHeight(10);
             StackPane.setAlignment(progressBar, Pos.BOTTOM_CENTER);
 
-            // Ajouter le GIF et la ProgressBar dans le StackPane
+            // on ajoute le GIF et la ProgressBar dans le StackPane
             root.getChildren().addAll(gifView, progressBar);
 
-            // Gestion de la scène
             Scene mainScene = new Scene(root, WIDTH, HEIGHT, Color.TRANSPARENT);
 
             mainScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/BOOT-INF/classes/ressources/assets/style.css")).toExternalForm());
@@ -209,31 +206,27 @@ public class Main extends Application {
             primary.setResizable(false);
             primary.show();
 
-            // Timeline pour l'animation de fondu
+            // timeline pour l'animation de fondu
             Timeline fadeInTimeline = new Timeline(
                     new KeyFrame(Duration.seconds(1), new KeyValue(primary.opacityProperty(), 1.0))
             );
             fadeInTimeline.setOnFinished(event -> {
-                // Lancer l'animation du GIF après le fondu
+                // animation du GIF après le fondu
                 PauseTransition pause = new PauseTransition(Duration.seconds(2));
                 pause.setOnFinished(pauseEvent -> {
-                    // Remplacer le GIF par une image statique après 3 secondes
                     Image staticImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/BOOT-INF/classes/ressources/assets/img/bootstrap.png")));
-
-                    // Créer un nouvel ImageView pour l'image statique
                     ImageView staticImageView = new ImageView(staticImage);
 
-                    // Ajuster le ImageView pour qu'il remplisse la fenêtre
                     staticImageView.setFitWidth(WIDTH);
                     staticImageView.setFitHeight(HEIGHT);
                     staticImageView.setPreserveRatio(true);
 
-                    // Remplacer le contenu de la VBox
+                    // on remplace le contenu de la VBox
                     root.getChildren().set(0, staticImageView); // Remplacer l'ImageView du GIF par l'image statique
                     root.setPrefSize(WIDTH, HEIGHT);
                     root.setAlignment(Pos.CENTER); // Centrage des éléments
 
-                    // Appeler updateLauncher après que tout soit terminé
+                    // on appel updateLauncher après que tout soit terminé
                     new Thread(() -> {
                         try {
                             updateLauncher();
@@ -244,9 +237,9 @@ public class Main extends Application {
                 });
                 pause.play();
             });
-            fadeInTimeline.play(); // Démarrer l'animation de fondu
+            fadeInTimeline.play(); // on démarre l'animation de fondu
 
-            // Mouvement fenêtre
+            // mouvement de fenêtre
             root.setOnMousePressed(event -> {
                 xOffset = event.getScreenX() - primaryStage.getX();
                 yOffset = event.getScreenY() - primaryStage.getY();
@@ -257,7 +250,7 @@ public class Main extends Application {
                 primaryStage.setY(event.getScreenY() - yOffset);
             });
 
-            // Gestion de l'icône
+            // icone
             primary.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("/ressources/assets/img/logo.png")).toExternalForm()));
         } catch (Exception e) {
             e.printStackTrace();
