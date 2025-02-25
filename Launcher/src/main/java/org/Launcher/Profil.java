@@ -26,14 +26,14 @@ public class Profil implements Serializable {
             return deserializedObjects;
         }
 
-        // Filtrer les fichiers pour ne prendre que les .flight
+        // on filtre les fichiers pour ne prendre que les .flight
         File[] files = folder.listFiles((dir, name) -> name.endsWith(".flight"));
         if (files == null || files.length == 0) {
             System.out.println("Aucun fichier sérialisé trouvé dans le dossier.");
             return deserializedObjects;
         }
 
-        // Désérialiser chaque fichier
+        // sésérialisation de chaque fichier
         for (File file : files) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                 Object obj = ois.readObject();
