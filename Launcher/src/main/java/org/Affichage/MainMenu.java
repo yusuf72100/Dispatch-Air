@@ -58,23 +58,23 @@ public class MainMenu implements Menu {
             transition.setFromX(-WIDTH); // Départ à gauche
             transition.setToX(0); // Traverse pour occuper toute la vue
 
-            // Utilisation d'un interpolateur inverse pour un démarrage rapide et un ralentissement à la fin
+            // on utilise un interpolateur inverse pour un démarrage rapide et un ralentissement à la fin
             transition.setInterpolator(new Interpolator() {
                 @Override
                 protected double curve(double t) {
-                    // Fonction inverse exponentielle pour démarrer rapidement puis ralentir à la fin
-                    return 1 - Math.pow(1 - t, 3); // Cette fonction rend l'animation rapide au début et lente à la fin
+                    // fonction inverse exponentielle pour démarrer rapidement puis ralentir à la fin
+                    return 1 - Math.pow(1 - t, 3); // cette fonction rend l'animation rapide au début et lente à la fin
                 }
             });
 
             transition.setCycleCount(1); // Une seule exécution
 
-            // Ajouter un listener pour attendre la fin de l'animation avant de réduire la fenêtre
+            // on ajoute un listener pour attendre la fin de l'animation avant de réduire la fenêtre
             transition.setOnFinished(event -> {
                 Main.stageFadeOut();
             });
 
-            // Démarrer l'animation
+            // on démarre l'animation
             transition.play();
         });
 
