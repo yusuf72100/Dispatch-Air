@@ -111,10 +111,17 @@ public class MainMenu implements Menu {
         return mainPane;
     }
 
+    /**
+     * On réinitialise la position du rectangle de transition
+     */
     public static void resetRectangle() {
         reduceRectangle.setTranslateX(-MainMenu.WIDTH);
     }
 
+    /**
+     * Getter du node d'affichage principal
+     * @return
+     */
     public static HBox getHeader() {
         return header;
     }
