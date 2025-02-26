@@ -1,9 +1,7 @@
 package org.Vol;
 
-import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Vol implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -67,30 +65,58 @@ public class Vol implements Serializable {
         return appareil;
     }
 
+    /**
+     * Setter type de l'appareil
+     * @param appareil
+     */
     public void setAppareil(AppareilEnum appareil) {
         this.appareil = appareil;
     }
 
+    /**
+     * Getter catégorie
+     * @return
+     */
     public CategoryEnum getCat() {
         return cat;
     }
 
+    /**
+     * Setter catégorie
+     * @param cat
+     */
     public void setCat(CategoryEnum cat) {
         this.cat = cat;
     }
 
+    /**
+     * Getter type de courrier
+     * @return
+     */
     public CourrierEnum getCourrier() {
         return courrier;
     }
 
+    /**
+     * Setter type de courrier
+     * @param courrier
+     */
     public void setCourrier(CourrierEnum courrier) {
         this.courrier = courrier;
     }
 
+    /**
+     * Getter callsign
+     * @return
+     */
     public String getCallSign() {
         return callSign;
     }
 
+    /**
+     * Setter callsign
+     * @param callSign
+     */
     public void setCallSign(String callSign) {
         this.callSign = callSign;
     }
@@ -132,7 +158,7 @@ public class Vol implements Serializable {
      * Getter taux_proc
      * @return
      */
-    public Double getTaux_proc() {
+    public Double getTauxProc() {
         return taux_proc;
     }
 
@@ -140,10 +166,21 @@ public class Vol implements Serializable {
      * Setter taux_proc
      * @param taux_proc
      */
-    public void setTaux_proc(Double taux_proc) {
+    public void setTauxProc(Double taux_proc) {
         this.taux_proc = taux_proc;
     }
 
+    /**
+     * Constructeur
+     * @param depart
+     * @param arrivee
+     * @param taux_proc
+     * @param typeVol
+     * @param appareil
+     * @param cat
+     * @param callSign
+     * @param dateLimite
+     */
     public Vol(String depart, String arrivee, Double taux_proc, VolEnum typeVol, AppareilEnum appareil, CategoryEnum cat, String callSign, String dateLimite) {
         this.depart = depart;
         this.arrivee = arrivee;
