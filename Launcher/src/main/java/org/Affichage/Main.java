@@ -45,7 +45,7 @@ public class Main extends Application {
             header.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    // Enregistrer la position de la souris lorsque l'utilisateur clique
+                    // on enregistre la position de la souris lorsque l'utilisateur clique
                     xOffset = event.getScreenX() - primaryStage.getX();
                     yOffset = event.getScreenY() - primaryStage.getY();
                 }
@@ -54,7 +54,7 @@ public class Main extends Application {
             header.setOnMouseDragged(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    // Déplacer la fenêtre en fonction du mouvement de la souris
+                    // déplacement de la fenetre
                     primaryStage.setX(event.getScreenX() - xOffset);
                     primaryStage.setY(event.getScreenY() - yOffset);
                 }
@@ -70,7 +70,7 @@ public class Main extends Application {
 
             primary.setOnCloseRequest(event -> {
                 Platform.exit();
-                // Attend la fin des sauvegardes avant de fermer l'application
+                // attend la fin des sauvegardes avant de fermer l'application
                 new Thread(() -> {
                     try {
                         Thread.sleep(1000);
@@ -82,7 +82,6 @@ public class Main extends Application {
                 System.exit(0);
             });
 
-            // Gestion de l'icône
             primary.getIcons().add(new Image(Objects.requireNonNull(MainMenu.class.getResource("/ressources/assets/img/logo.png")).toExternalForm()));
 
         } catch (Exception e) {
@@ -95,35 +94,35 @@ public class Main extends Application {
      * @throws InterruptedException
      */
     public static void stageFadeOut() {
-        // Utilisation de Platform.runLater pour exécuter les mises à jour de l'UI sur le thread JavaFX
+        // on utilise Platform.runLater pour exécuter les mises à jour de l'UI sur le thread JavaFX
         Platform.runLater(() -> {
             double opacity = 1.0;
 
-            // Réduction de l'opacité progressivement jusqu'à 0
+            // on réduit de l'opacité progressivement jusqu'à 0
             while (opacity > 0.0) {
                 try {
                     Thread.sleep(1);  // Petite pause pour créer l'effet de fondu
                     opacity -= 0.01;
 
-                    // S'assurer que l'opacité ne devienne pas négative
+                    // on s'assure que l'opacité ne devienne pas négative
                     if (opacity < 0.0) {
                         opacity = 0.0;
                     }
 
-                    // Mettre à jour l'opacité de la fenêtre
+                    // on met à jour l'opacité de la fenêtre
                     primaryStage.setOpacity(opacity);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
 
-            // Quand le fade-out est terminé, réduire la fenêtre (minimiser)
+            // quand le fade-out est terminé, réduire la fenêtre (minimiser)
             primaryStage.setIconified(true);
 
-            // Appeler une méthode pour réinitialiser la position du rectangle d'animation, si nécessaire
+            // on appel une méthode pour réinitialiser la position du rectangle d'animation, si nécessaire
             MainMenu.resetRectangle();
 
-            // Remettre l'opacité à 1 pour préparer la fenêtre à être réutilisée
+            // on remet l'opacité à 1 pour préparer la fenêtre à être réutilisée
             primaryStage.setOpacity(1.0);
         });
     }
