@@ -20,7 +20,7 @@ public class PopupMessage {
         Label label = new Label(message);
         Button closeButton = new Button("Fermer");
 
-        // on ferme la fenetre et on execute le callback
+        // On ferme la fenetre et on execute le callback
         closeButton.setOnAction(event -> {
             window.close();
             if (onClose != null) {

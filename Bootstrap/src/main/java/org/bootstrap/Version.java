@@ -2,7 +2,7 @@ package org.bootstrap;
 
 import java.io.*;
 
-public class Version implements Serializable {
+public class Version implements Serializable, Comparable<Version> {
     private static final long serialVersionUID = 1L;
     private String version;
 
@@ -39,6 +39,10 @@ public class Version implements Serializable {
         return version;
     }
 
+    @Override
+    public int compareTo(Version o) {
+        return o.getVersion().compareTo(this.version);
+    }
 
     /*public static void main(String[] args) {
         Version version = new Version("alpha-0.0.1");

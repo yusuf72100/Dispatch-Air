@@ -73,7 +73,7 @@ public class Main extends Application {
             command.add("java");
             command.add("-jar");
             command.add(jarFilePath);
-            command.addAll(Arrays.asList(args)); // Ajouter les arguments supplémentaires
+            command.addAll(Arrays.asList(args)); // arguments supplémentaires
 
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             processBuilder.inheritIO();
@@ -124,7 +124,8 @@ public class Main extends Application {
                 version = Version.deserialize("DispatchAir/version.vs");
                 Version newVersion = Version.deserialize("DispatchAir/new_version.vs");
 
-                if (!Objects.equals(version.getVersion(), newVersion.getVersion())) {
+                // On compare la version du cloud avec la version en local
+                if (version.compareTo(newVersion) == -1) {
                     System.out.println("Update en cours...");
 
                     new File("DispatchAir/version.vs").delete();
@@ -285,7 +286,7 @@ public class Main extends Application {
     /**
      * Ferme proprement le bootstrap
      */
-    public static void close() {
+    private static void close() {
         System.out.println("Fermeture du bootstrap...");
         Platform.exit();
     }
