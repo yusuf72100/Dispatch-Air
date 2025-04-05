@@ -137,7 +137,7 @@ public class Main extends Application {
 
                     System.out.println("Téléchargement terminé!");
                 } else {
-                    new File("DispatchAir/new_version.vs").delete();
+                    new File("DispatchAir/new_version.vs").delete();        // on supprime le fichier temporaire de version
                     System.out.println("Launcher déjà à jour!");
                 }
             } else {
