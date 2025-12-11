@@ -1,4 +1,4 @@
-package org.Launcher;
+package org.Affichage;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

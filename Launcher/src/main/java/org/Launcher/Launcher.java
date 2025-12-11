@@ -2,6 +2,7 @@ package org.Launcher;
 
 import javafx.scene.image.Image;
 import org.Affichage.Main;
+import org.Vol.Vol;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -60,6 +61,8 @@ public class Launcher {
 
   public static String dossierVolsHistorique = Launcher.dossierVols + "/historique";
 
+  public static List<Profil> profilsList;
+
   /**
    * Constructeur privé de la classe Launcher
    */
@@ -94,6 +97,7 @@ public class Launcher {
 
   public static void chargerProfils() {
     List<File> profils = new ArrayList<>();
+    profilsList = new ArrayList<>();
 
     File directory = new File(Launcher.chargerFichierEnUrl(Launcher.normaliserChemin(Launcher.dossierProfils)));
 
@@ -102,6 +106,13 @@ public class Launcher {
     if (files != null) {
       for (File file : files) {
         profils.add(file);
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            Object obj = ois.readObject();
+            profilsList.add((Profil) obj);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erreur lors de la désérialisation de " + file.getName());
+            e.printStackTrace();
+        }
       }
     }
   }
@@ -179,7 +190,6 @@ public class Launcher {
       }
       return false;
     }
-
   }
 
   /**
@@ -255,7 +265,6 @@ public class Launcher {
       if (!cheminNormalise.isEmpty()) {
         setNormalisee.add(cheminNormalise);
       }
-
     }
     return setNormalisee;
   }
@@ -450,6 +459,9 @@ public class Launcher {
         System.out.println("Lancement de l'application");
         System.out.println("---------------------------");
       }
+
+      chargerProfils();
+      launch(Main.class, args);
 
       // Lancement de l'affichage
       for (String arg : args) {

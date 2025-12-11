@@ -1,10 +1,13 @@
 package org.Affichage;
 
-import javafx.animation.Interpolator;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.skin.ComboBoxListViewSkin;
+import javafx.scene.control.skin.VirtualFlow;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -13,7 +16,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.Launcher.Launcher;
+import org.Launcher.Profil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -28,6 +35,7 @@ public class MainMenu implements Menu {
     protected static Image reduceImage;
     protected static double WIDTH;
     protected static double HEIGHT;
+    protected static ComboBox<String> profilsCombo;
 
     /**
      * Cette méthode renvoi la forme du menu (en l'occurence, un StackPane)
@@ -38,12 +46,55 @@ public class MainMenu implements Menu {
     public static StackPane getMenu(Double WIDTH, Double HEIGHT) {
         MainMenu.WIDTH = WIDTH;
         MainMenu.HEIGHT = HEIGHT;
+        profilsCombo = new ComboBox<>();
         minimizeButton = new Button();
         exitButton = new Button();
         reduceRectangle = new Rectangle(WIDTH, HEIGHT);
         reduceImage = new Image(Objects.requireNonNull(MainMenu.class.getResourceAsStream("/BOOT-INF/classes/ressources/assets/img/window_reduce.png")));
         reduceImagePattern = new ImagePattern(reduceImage);
         reduceRectangle.setFill(reduceImagePattern);
+
+        for (Profil profil : Launcher.profilsList) {
+            profilsCombo.getItems().add(profil.getNom());
+        }
+
+        if(Launcher.profilsList.isEmpty()) {
+            profilsCombo.setValue("➕ Ajouter un profil...");
+        } else {
+            profilsCombo.getItems().add("➕ Ajouter un profil...");
+        }
+
+        // Attendre que le skin soit chargé
+        Platform.runLater(() -> {
+            Region base = (Region) profilsCombo.lookup(".combo-box-base");
+
+            // Animation pour hover
+            profilsCombo.setOnMouseEntered(e -> {
+                Timeline timeline = new Timeline();
+                int start = 3;
+                int end = 10;
+
+                // On crée plusieurs KeyFrame pour interpoler la valeur
+                for (float i = start; i <= end; i+=0.05) {
+                    KeyFrame kf = getKeyFrame(i, i - start, base);
+                    timeline.getKeyFrames().add(kf);
+                }
+                timeline.play();
+            });
+
+            // Animation pour exit
+            profilsCombo.setOnMouseExited(e -> {
+                Timeline timeline = new Timeline();
+                int start = 10;
+                int end = 3;
+
+                for (float i = start; i >= end; i-=0.05) {
+                    KeyFrame kf = getKeyFrame(i, start - i, base);
+                    timeline.getKeyFrames().add(kf);
+                }
+                timeline.play();
+            });
+        });
 
         minimizeButton.setPrefSize(30, 50);
         exitButton.setPrefSize(30, 50);
@@ -78,17 +129,19 @@ public class MainMenu implements Menu {
             transition.play();
         });
 
+        // Bouton de fermeture de l'application
         exitButton.setOnAction(e -> {
             Platform.exit();
         });
 
+        // Titre
         title = new Text("D i s p a t c h ' A i r");
         title.setFont(Font.font("BrownRosemary", 20));
         title.setFill(Color.WHITE);
         title.setTranslateX(20);
 
         header = new HBox();
-        header.setMaxSize(WIDTH, 30);   
+        header.setMaxSize(WIDTH, 30);
         header.getStyleClass().add("header");
 
         Region spacer = new Region();
@@ -103,12 +156,25 @@ public class MainMenu implements Menu {
 
         mainPane = new StackPane();
         mainPane.setPrefSize(WIDTH, HEIGHT);
-        mainPane.getChildren().addAll(header, reduceRectangle);
+        mainPane.getChildren().addAll(header, reduceRectangle, profilsCombo);
         mainPane.getStyleClass().add("mainPane");
 
         StackPane.setAlignment(header, Pos.TOP_CENTER);
 
         return mainPane;
+    }
+
+    private static KeyFrame getKeyFrame(float i, float i1, Region base) {
+        float borderSize = i;
+        KeyFrame kf = new KeyFrame(Duration.millis(i1 * 10), // 40ms entre chaque étape
+                ev -> base.setBorder(new Border(new BorderStroke(
+                        Color.web("#212121"),
+                        BorderStrokeStyle.SOLID,
+                        CornerRadii.EMPTY,
+                        new BorderWidths(0, 0, borderSize, 0)
+                )))
+        );
+        return kf;
     }
 
     /**

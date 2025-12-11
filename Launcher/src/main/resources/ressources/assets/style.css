@@ -69,3 +69,71 @@
     -fx-background-image: url('img/bootstrap.gif');
     -fx-background-size: cover;
 }
+
+/* Style général du ComboBox */
+.combo-box {
+    -fx-background-color: transparent;
+    -fx-min-width: 500px;     /* largeur de la ComboBox */
+    -fx-min-height: 50px;     /* hauteur de la ComboBox */
+    -fx-font-size: 14px;
+}
+
+/* Style des cellules dans la liste déroulante */
+.combo-box .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+    -fx-border-color: transparent transparent #212121 transparent;
+    -fx-border-width: 0 0 3 0;
+}
+
+/* Style quand la cellule est survolée */
+.combo-box .list-cell:hover {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #212121 transparent;
+    -fx-border-width: 0 0 3 0;
+}
+
+/* Style de la cellule sélectionnée */
+.combo-box .list-cell:filled:selected {
+    -fx-background-color: transparent;
+    -fx-text-fill: #212121;
+    -fx-border-color: transparent transparent #212121 transparent;
+    -fx-border-width: 0 0 3 0;
+}
+
+/* Zone visible de la ComboBox */
+.combo-box .combo-box-base {
+    -fx-min-width: 500px;
+    -fx-min-height: 50px;
+    -fx-background-color: transparent;
+
+    /* Bordure uniquement en bas */
+    -fx-border-color: transparent transparent #212121 transparent;
+    -fx-border-width: 0 0 20 0;
+
+    /* Insets pour que la bordure soit visible */
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+}
+
+/* Enlève le contour bleu au focus */
+.combo-box:focused {
+    -fx-background-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Cible le bouton flèche */
+.combo-box .arrow-button {
+    -fx-background-color: transparent;      /* fond de la flèche */
+    -fx-padding: 1em;                       /* padding */
+    -fx-border-color: transparent transparent #212121 #212121;
+    -fx-border-width: 0 0 3 3;
+}
+
+/* Cible le triangle de la flèche */
+.combo-box .arrow {
+    -fx-shape: "M 0 0 L 4 4 L 8 0 Z";   /* triangle personnalisé */
+    -fx-background-color: #212121; /* couleur du triangle */
+    -fx-border-color: transparent;
+}

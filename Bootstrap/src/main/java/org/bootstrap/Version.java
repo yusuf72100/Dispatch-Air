@@ -44,10 +44,10 @@ public class Version implements Serializable, Comparable<Version> {
         return o.getVersion().compareTo(this.version);
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         Version version = new Version("alpha-0.0.1");
 
         // Serialize the object
         version.serialize("version.vs");
-    }*/
+    }
 }

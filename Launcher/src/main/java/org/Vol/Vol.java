@@ -2,9 +2,26 @@ package org.Vol;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Comparator;
 
-public class Vol implements Serializable {
+public class Vol implements Serializable, Comparable<Vol>{
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public int compareTo(Vol o) {
+        return Comparator
+                .comparing(Vol::getDepart)
+                .thenComparing(Vol::getArrivee)
+                .thenComparing(Vol::getTauxProc)
+                .thenComparing(Vol::getCallSign)
+                .thenComparing(Vol::getDateDebut)
+                .thenComparing(Vol::getDateLimite)
+                .thenComparing(Vol::getTypeVol)
+                .thenComparing(Vol::getAppareil)
+                .thenComparing(Vol::getCat)
+                .thenComparing(Vol::getCourrier)
+                .compare(this, o);
+    }
 
     /**
      * Définira le type de vol
@@ -52,6 +69,14 @@ public class Vol implements Serializable {
     protected AppareilEnum appareil;
     protected CategoryEnum cat;
     protected CourrierEnum courrier;
+
+    public LocalDate getDateDebut() {
+        return dateDebut;
+    }
+
+    public LocalDate getDateLimite() {
+        return dateLimite;
+    }
 
     public VolEnum getTypeVol() {
         return typeVol;
