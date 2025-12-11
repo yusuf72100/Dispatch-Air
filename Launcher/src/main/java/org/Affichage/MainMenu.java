@@ -64,12 +64,24 @@ public class MainMenu implements Menu {
             profilsCombo.getItems().add("➕ Ajouter un profil...");
         }
 
+        profilsCombo.setStyle(
+                "-fx-min-width: 500px;" +
+                        "-fx-min-height: 50px;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-background-color: transparent;" +
+                        "-fx-border-color: #212121;" +
+                        "-fx-border-width: 0 0 3 0;"
+        );
+
         // Attendre que le skin soit chargé
         Platform.runLater(() -> {
             Region base = (Region) profilsCombo.lookup(".combo-box-base");
 
             // Animation pour hover
             profilsCombo.setOnMouseEntered(e -> {
+                profilsCombo.getStyleClass().clear();
+                profilsCombo.getStyleClass().add("combo-box");
+
                 Timeline timeline = new Timeline();
                 int start = 3;
                 int end = 10;
