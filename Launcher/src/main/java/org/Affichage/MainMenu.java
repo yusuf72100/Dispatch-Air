@@ -2,12 +2,12 @@ package org.Affichage;
 
 import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.skin.ComboBoxListViewSkin;
-import javafx.scene.control.skin.VirtualFlow;
-import javafx.scene.effect.DropShadow;
+import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -18,9 +18,6 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.Launcher.Launcher;
 import org.Launcher.Profil;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -36,6 +33,7 @@ public class MainMenu implements Menu {
     protected static double WIDTH;
     protected static double HEIGHT;
     protected static ComboBox<String> profilsCombo;
+    protected static Text welcomeText;
 
     /**
      * Cette méthode renvoi la forme du menu (en l'occurence, un StackPane)
@@ -64,6 +62,7 @@ public class MainMenu implements Menu {
             profilsCombo.getItems().add("➕ Ajouter un profil...");
         }
 
+        // Style que l'on va retirer après le premier hover
         profilsCombo.setStyle(
                 "-fx-min-width: 500px;" +
                         "-fx-min-height: 50px;" +
@@ -73,12 +72,28 @@ public class MainMenu implements Menu {
                         "-fx-border-width: 0 0 3 0;"
         );
 
+        // Si on clique sur la valeur actuelle
+        profilsCombo.showingProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) {
+                if (profilsCombo.getValue().compareTo("➕ Ajouter un profil...") == 0) {
+                    mainPane.setMouseTransparent(true);     // élément non clickable
+                    profilsCombo.setMouseTransparent(true); // élément non clickable
+                    Main.createProfile();
+                }
+            }
+        });
+
+        profilsCombo.setOnAction(e ->
+                Main.createProfile()
+        );
+
         // Attendre que le skin soit chargé
         Platform.runLater(() -> {
             Region base = (Region) profilsCombo.lookup(".combo-box-base");
 
             // Animation pour hover
             profilsCombo.setOnMouseEntered(e -> {
+                // On enlève la barre du bas statique pour éviter le bugg de stutter
                 profilsCombo.getStyleClass().clear();
                 profilsCombo.getStyleClass().add("combo-box");
 
@@ -152,6 +167,12 @@ public class MainMenu implements Menu {
         title.setFill(Color.WHITE);
         title.setTranslateX(20);
 
+        welcomeText = new Text("Bienvenue");
+        welcomeText.setFont(Font.font("BrownRosemary", 20));
+        welcomeText.setFill(Color.BLACK);
+        welcomeText.setTranslateY(-120);
+        welcomeText.getStyleClass().add("welcomeText");
+
         header = new HBox();
         header.setMaxSize(WIDTH, 30);
         header.getStyleClass().add("header");
@@ -168,10 +189,11 @@ public class MainMenu implements Menu {
 
         mainPane = new StackPane();
         mainPane.setPrefSize(WIDTH, HEIGHT);
-        mainPane.getChildren().addAll(header, reduceRectangle, profilsCombo);
+        mainPane.getChildren().addAll(header, welcomeText, profilsCombo, reduceRectangle);
         mainPane.getStyleClass().add("mainPane");
 
         StackPane.setAlignment(header, Pos.TOP_CENTER);
+        reduceRectangle.setMouseTransparent(true);
 
         return mainPane;
     }

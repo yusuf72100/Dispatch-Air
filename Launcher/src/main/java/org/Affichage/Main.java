@@ -3,16 +3,28 @@ package org.Affichage;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import java.io.IOException;
+import javafx.animation.*;
+import javafx.scene.control.Button;
+import javafx.scene.layout.*;
 import java.util.Objects;
+
+import java.awt.*;
+import java.io.IOException;
+
+import static com.sun.javafx.application.PlatformImpl.exit;
 
 
 public class Main extends Application {
@@ -127,4 +139,31 @@ public class Main extends Application {
         });
     }
 
+    public static void createProfile() {
+        // Nouveau stage pour le popup
+        Stage popupStage = new Stage();
+        popupStage.initOwner(primaryStage);          // le parent est la fenêtre principale
+        popupStage.initStyle(StageStyle.TRANSPARENT); // style sans bordure
+
+        // StackPane principal
+        StackPane popupRoot = Popup.getMenu(400.0, 200.0);
+
+        // Scene du popup
+        Scene popupScene = new Scene(popupRoot, 400, 200, Color.TRANSPARENT);
+        popupScene.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("/ressources/assets/style.css")).toExternalForm());
+        popupStage.setScene(popupScene);
+
+        // Positionner le popup au centre de la fenêtre principale
+        popupStage.setX(primaryStage.getX() + (primaryStage.getWidth() - 400) / 2);
+        popupStage.setY(primaryStage.getY() + (primaryStage.getHeight() - 200) / 2);
+
+        Popup.cancel.setOnAction(e -> {
+                popupStage.close();
+                MainMenu.profilsCombo.setMouseTransparent(false);
+                MainMenu.mainPane.setMouseTransparent(false);
+        });
+
+        System.out.println("popup créé");
+        popupStage.show();
+    }
 }

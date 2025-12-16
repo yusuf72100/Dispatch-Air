@@ -16,6 +16,61 @@
     -fx-padding: 0 0 0 50;
 }
 
+.welcomeText{
+    -fx-font-family: 'BrownRosemary';
+    -fx-text-fill: white;
+    -fx-font-size: 100;
+}
+
+.popupMainPane{
+    -fx-background-color: #313638;
+    -fx-background-radius: 15;
+    -fx-background-insets: 0;
+
+    -fx-border-color: transparent transparent #F06543 transparent;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-radius: 15; /* ← important */
+    -fx-border-insets: 0;  /* ← optionnel mais aide pour l’alignement */
+}
+
+.nameTextField {
+    -fx-background-color: #e1e2e3;
+    -fx-background-radius: 100px;
+    -fx-padding: 1em;
+
+    /* Shadow interne */
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 2, 5);
+
+    /* Transition simulée avec animations Java */
+}
+
+.nameTextField:focused {
+    -fx-background-color: #ffffff;
+}
+
+/* CSS JavaFX équivalent */
+.popupButtons {
+    /* Couleurs et styles fixes */
+    -fx-background-color: white;
+    -fx-background-radius: 12px; /* équivalent à 0.75em */
+    -fx-border-radius: 12px;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+
+    /* Ombres */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 16, 0.5, 6, 6),
+                dropshadow(gaussian, rgba(255,255,255,0.2), 16, 0.5, -6, -6);
+
+    /* Padding */
+    -fx-padding: 12px 24px; /* 0.75em 1.5em approximatif */
+
+    /* Curseur */
+    -fx-cursor: hand;
+}
+
 .mainPane {
     -fx-background-color: #fffcf2;
 }
