@@ -1,8 +1,10 @@
 package org.Launcher;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import org.Affichage.Main;
-import org.Vol.Vol;
+import org.Affichage.MainMenu;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -61,8 +63,7 @@ public class Launcher {
 
   public static String dossierVolsHistorique = Launcher.dossierVols + "/historique";
 
-  public static List<Profil> profilsList;
-
+  public static List<Profile> profilsList;
   /**
    * Constructeur privé de la classe Launcher
    */
@@ -95,27 +96,57 @@ public class Launcher {
     return (directory.isDirectory() && Objects.requireNonNull(directory.listFiles(File::isFile)).length > 0);
   }
 
+  public static boolean profilsExist(String Name) {
+    for (Profile profile : profilsList) {
+      if (profile.getNom().equalsIgnoreCase(Name)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public static void chargerProfils() {
-    List<File> profils = new ArrayList<>();
-    profilsList = new ArrayList<>();
+    Launcher.profilsList = new ArrayList<>();
 
-    File directory = new File(Launcher.chargerFichierEnUrl(Launcher.normaliserChemin(Launcher.dossierProfils)));
+    File dossierProfils = new File(
+            Launcher.normaliserChemin(Launcher.dossierProfils)
+    );
 
-    File[] files = directory.listFiles(file -> file.isFile() && file.getName().endsWith(".profil"));
+    if (!dossierProfils.isDirectory()) {
+      System.out.println("Le dossier profils n'existe pas");
+      return;
+    }
 
-    if (files != null) {
-      for (File file : files) {
-        profils.add(file);
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            Object obj = ois.readObject();
-            profilsList.add((Profil) obj);
+    // Parcours de chaque dossier de profil
+    File[] dossiers = dossierProfils.listFiles(File::isDirectory);
+    if (dossiers == null) return;
+
+    for (File dossierProfil : dossiers) {
+
+      // Recherche du fichier .profil dans le dossier
+      File[] fichiersProfil = dossierProfil.listFiles(
+              file -> file.isFile() && file.getName().endsWith(".prf")
+      );
+
+      if (fichiersProfil == null || fichiersProfil.length == 0) continue;
+
+      for (File fichier : fichiersProfil) {
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(new FileInputStream(fichier))) {
+
+          Profile profile = (Profile) ois.readObject();
+          profilsList.add(profile);
+
+          System.out.println("Profil chargé : " + profile.getNom());
+
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Erreur lors de la désérialisation de " + file.getName());
-            e.printStackTrace();
+          System.out.println("Erreur lors du chargement de " + fichier.getAbsolutePath());
+          e.printStackTrace();
         }
       }
     }
   }
+
 
   /**
    * Méthode pour copier un fichier d'un emplacement à un autre

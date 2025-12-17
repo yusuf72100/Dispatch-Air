@@ -6,20 +6,40 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Profil implements Serializable {
+public class Profile implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String Nom;
     private List<Vol> listVols;
 
     // Constructeur
-    public Profil(String Nom) {
+    public Profile(String Nom) {
         this.Nom = Nom;
         this.listVols = this.getListVols();
     }
 
     public String getNom(){
         return this.Nom;
+    }
+
+    public int serialiseProfile() {
+        String chemin = Launcher.dossierProfils + "/" + this.Nom + "/profil.prf";
+
+        File fichier = new File(chemin);
+
+        // Création des dossiers si nécessaires
+        fichier.getParentFile().mkdirs();
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichier))) {
+            oos.writeObject(this);
+            System.out.println("Profil sérialisé avec succès : " + fichier.getAbsolutePath());
+            return 0;
+
+        } catch (IOException e) {
+            System.out.println("Erreur lors de la sérialisation du profil");
+            e.printStackTrace();
+            return 1;
+        }
     }
 
     public List<Vol> getListVols() {

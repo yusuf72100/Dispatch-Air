@@ -5,13 +5,14 @@ import javafx.animation.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import org.Launcher.Launcher;
+import org.Launcher.Profile;
 
 public class Popup implements Menu {
     protected static StackPane popupMainPane;
@@ -58,11 +59,46 @@ public class Popup implements Menu {
             }
         });
 
+        textField.textProperty().addListener((obs, oldText, newText) -> {
+            // Champ vide
+            if (newText.isEmpty()) {
+                System.out.println("Champ vide");
+                confirm.setDisable(true);
+                return;
+            }
+
+            // Nom trop court
+            if (newText.length() < 3) {
+                System.out.println("Nom trop court");
+                confirm.setDisable(true);
+                return;
+            }
+
+            // Caractères interdits
+            if (!newText.matches("[a-zA-Z0-9_]+")) {
+                System.out.println("Caractères interdits");
+                confirm.setDisable(true);
+                return;
+            }
+
+            if (Launcher.profilsExist(newText)) {
+                System.out.println("Ce nom de profil existe déjà !");
+                confirm.setDisable(true);
+                return;
+            }
+
+            // Si tout est OK
+            System.out.println("Nom valide : " + newText);
+            confirm.setDisable(false);
+        });
+
+
         // BUTTONS DESIGN
         confirm = new Button("Confirmer");
         cancel = new Button("Annuler");
         confirm.getStyleClass().add("popupButtons");
         cancel.getStyleClass().add("popupButtons");
+        confirm.setDisable(true);
 
         TranslateTransition hoverTransitionConfirm = new TranslateTransition(Duration.seconds(0.1), confirm);
         confirm.setOnMouseEntered(e -> {

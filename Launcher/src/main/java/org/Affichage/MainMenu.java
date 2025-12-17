@@ -2,12 +2,9 @@ package org.Affichage;
 
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -17,7 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.Launcher.Launcher;
-import org.Launcher.Profil;
+import org.Launcher.Profile;
 import java.util.Objects;
 
 
@@ -52,15 +49,7 @@ public class MainMenu implements Menu {
         reduceImagePattern = new ImagePattern(reduceImage);
         reduceRectangle.setFill(reduceImagePattern);
 
-        for (Profil profil : Launcher.profilsList) {
-            profilsCombo.getItems().add(profil.getNom());
-        }
-
-        if(Launcher.profilsList.isEmpty()) {
-            profilsCombo.setValue("➕ Ajouter un profil...");
-        } else {
-            profilsCombo.getItems().add("➕ Ajouter un profil...");
-        }
+        MainMenu.refreshProfilsList();
 
         // Style que l'on va retirer après le premier hover
         profilsCombo.setStyle(
@@ -83,9 +72,21 @@ public class MainMenu implements Menu {
             }
         });
 
-        profilsCombo.setOnAction(e ->
-                Main.createProfile()
-        );
+        profilsCombo.setOnAction(event -> {
+            String selected = profilsCombo.getValue();
+            if ("➕ Ajouter un profil...".equals(selected)) {
+                mainPane.setMouseTransparent(true);
+                profilsCombo.setMouseTransparent(true);
+
+                Main.createProfile();
+
+                // Remettre la sélection sur le premier profil si existant
+                if (!Launcher.profilsList.isEmpty()) {
+                    profilsCombo.setValue(Launcher.profilsList.get(0).getNom());
+                }
+            }
+        });
+
 
         // Attendre que le skin soit chargé
         Platform.runLater(() -> {
@@ -94,8 +95,8 @@ public class MainMenu implements Menu {
             // Animation pour hover
             profilsCombo.setOnMouseEntered(e -> {
                 // On enlève la barre du bas statique pour éviter le bugg de stutter
-                profilsCombo.getStyleClass().clear();
-                profilsCombo.getStyleClass().add("combo-box");
+                /*profilsCombo.getStyleClass().clear();
+                profilsCombo.getStyleClass().add("combo-box");*/
 
                 Timeline timeline = new Timeline();
                 int start = 3;
@@ -224,5 +225,23 @@ public class MainMenu implements Menu {
      */
     public static HBox getHeader() {
         return header;
+    }
+
+    public static void refreshProfilsList() {
+        profilsCombo.getItems().clear();
+
+        for (Profile profil : Launcher.profilsList) {
+            profilsCombo.getItems().add(profil.getNom());
+        }
+
+        // Ajouter l'option "Ajouter un profil..."
+        profilsCombo.getItems().add("➕ Ajouter un profil...");
+
+        // Définir la valeur affichée
+        if (!Launcher.profilsList.isEmpty()) {
+            profilsCombo.setValue(Launcher.profilsList.get(0).getNom());
+        } else {
+            profilsCombo.setValue("➕ Ajouter un profil...");
+        }
     }
 }

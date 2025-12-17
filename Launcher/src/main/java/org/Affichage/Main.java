@@ -19,6 +19,9 @@ import javafx.stage.StageStyle;
 import javafx.animation.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
+import org.Launcher.Launcher;
+import org.Launcher.Profile;
+
 import java.util.Objects;
 
 import java.awt.*;
@@ -157,13 +160,29 @@ public class Main extends Application {
         popupStage.setX(primaryStage.getX() + (primaryStage.getWidth() - 400) / 2);
         popupStage.setY(primaryStage.getY() + (primaryStage.getHeight() - 200) / 2);
 
+        System.out.println("popup créé");
+        popupStage.show();
+
         Popup.cancel.setOnAction(e -> {
                 popupStage.close();
                 MainMenu.profilsCombo.setMouseTransparent(false);
                 MainMenu.mainPane.setMouseTransparent(false);
         });
 
-        System.out.println("popup créé");
-        popupStage.show();
+        Popup.confirm.setOnAction(e -> {
+            // Création du profile
+            Profile profile = new Profile(Popup.textField.getText());
+
+            if (profile.serialiseProfile() != 0) {
+                // TODO : NOTIF ALERTE
+            }
+
+            Launcher.chargerProfils();
+            MainMenu.refreshProfilsList();
+            popupStage.close();
+            MainMenu.profilsCombo.setMouseTransparent(false);
+            MainMenu.mainPane.setMouseTransparent(false);
+
+        });
     }
 }

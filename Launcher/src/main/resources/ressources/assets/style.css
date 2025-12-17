@@ -164,15 +164,26 @@
     -fx-faint-focus-color: transparent;
 }
 
-/* Cible le bouton flèche */
+/* Bouton de la flèche */
 .combo-box .arrow-button {
-    -fx-background-color: transparent;      /* fond de la flèche */
-    -fx-padding: 1em;                       /* padding */
-    -fx-border-color: transparent transparent transparent #212121;
-    -fx-border-width: 0 0 0 3;
+    -fx-background-color: transparent; /* fond du bouton */
+    -fx-padding: 0.5em;               /* padding interne */
+    -fx-border-color: transparent;    /* pas de bordure */
+    -fx-border-width: 0;
 }
 
-/* Cible le triangle de la flèche */
+/* Triangle de la flèche */
 .combo-box .arrow {
-    -fx-shape: "M 0 0 L 4 4 L 8 0 Z";   /* triangle personnalisé */
+    -fx-shape: "M 0 0 L 8 0 L 4 4 Z";  /* triangle pointant vers le bas */
+    -fx-background-color: #212121;     /* couleur visible */
+    -fx-scale-x: 1.5;                  /* optionnel : agrandir */
+    -fx-scale-y: 1.5;
+}
+
+
+/* Flèche quand le bouton est pressé / armé */
+.combo-box .arrow-button:armed .arrow,
+.combo-box .arrow-button:focused .arrow,
+.combo-box .arrow-button:hover .arrow {
+    -fx-background-color: #212121; /* même couleur ou différente */
 }
