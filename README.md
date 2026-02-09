@@ -31,18 +31,18 @@ Ce projet a pour objectif de fournir une solution simple, rapide et fiable pour 
 
 ## 📦 Architecture du projet
 
-src/··
-├─ main/··
-│ ├─ java/··
-│ │ ├─ launcher/··
-│ │ │ ├─ Main.java··
-│ │ │ ├─ ui/··
-│ │ │ ├─ updater/··
-│ │ │ └─ gcs/··
-│ └─ resources/··
-│ ├─ fxml/··
-│ ├─ css/··
-│ └─ assets/··
+src/<br>
+├─ main/<br>
+│ ├─ java/<br>
+│ │ ├─ launcher/<br>
+│ │ │ ├─ Main.java<br>
+│ │ │ ├─ ui/<br>
+│ │ │ ├─ updater/<br>
+│ │ │ └─ gcs/<br>
+│ └─ resources/<br>
+│ ├─ fxml/<br>
+│ ├─ css/<br>
+│ └─ assets/<br>
 
 
 - `ui` : gestion de l’interface JavaFX  
@@ -60,11 +60,11 @@ Le launcher utilise **Google Cloud Storage** pour :
 
 ### Exemple de structure du bucket :
 
-/releases/··
-├─ manifest.json··
-├─ app.jar··
-├─ lib/··
-└─ assets/··
+/releases/<br>
+├─ manifest.json<br>
+├─ app.jar<br>
+├─ lib/<br>
+└─ assets/<br>
 
 
 ---
