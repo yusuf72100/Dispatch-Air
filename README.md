@@ -31,3 +31,54 @@ Ce projet a pour objectif de fournir une solution simple, rapide et fiable pour 
 
 ## 📦 Architecture du projet
 
+src/
+├─ main/
+│ ├─ java/
+│ │ ├─ launcher/
+│ │ │ ├─ Main.java
+│ │ │ ├─ ui/
+│ │ │ ├─ updater/
+│ │ │ └─ gcs/
+│ └─ resources/
+│ ├─ fxml/
+│ ├─ css/
+│ └─ assets/
+
+
+- `ui` : gestion de l’interface JavaFX  
+- `updater` : logique de vérification et de mise à jour  
+- `gcs` : communication avec Google Cloud Storage  
+
+---
+
+## ☁️ Google Cloud Storage
+
+Le launcher utilise **Google Cloud Storage** pour :
+- Stocker les fichiers du logiciel
+- Héberger le fichier de version (`manifest.json`)
+- Distribuer les mises à jour
+
+### Exemple de structure du bucket :
+
+/releases/
+├─ manifest.json
+├─ app.jar
+├─ lib/
+└─ assets/
+
+
+---
+
+## ⚙️ Configuration
+
+1. Créer un projet Google Cloud
+2. Activer **Cloud Storage**
+3. Créer un bucket
+4. Configurer une **clé de service**
+5. Ajouter la clé dans le projet (ou via variable d’environnement)
+
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS="credentials.json"
+
+▶️ Lancement du projet
+./gradlew run ou mvn javafx:run
