@@ -80,5 +80,11 @@ Le launcher utilise **Google Cloud Storage** pour :
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS="credentials.json"
 
-▶️ Lancement du projet
-./gradlew run ou mvn javafx:run
+🌿 Branches
+
+Ce dépôt utilise une structure simple :
+
+master : contient l’intégralité du projet (code source, ressources, configuration)
+
+Aucune autre branche n’est utilisée actuellement.
+Le développement, les correctifs et les mises à jour sont directement réalisés sur la branche master.
