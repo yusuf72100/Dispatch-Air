@@ -77,10 +77,12 @@ Le launcher utilise **Google Cloud Storage** pour :
 4. Configurer une **clé de service**
 5. Ajouter la clé dans le projet (ou via variable d’environnement)
 
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS="credentials.json"
+```bash export GOOGLE_APPLICATION_CREDENTIALS="credentials.json"```
 
-🌿 Branches
+
+---
+
+## 🌿 Branches
 
 Ce dépôt utilise une structure simple :
 
